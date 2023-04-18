@@ -15,12 +15,12 @@ namespace AndreTurismo.Services
             connection.Open();
         }
 
-        public bool Insert(Address address)
+        public int Insert(Address address)
         {
-            bool status = false;
+            int status = 0;
             try
             {
-                string stringInsert = "INSERT INTO Address " +
+                string stringInsert = "INSERT INTO [Address] " +
                                               "(        Street" +
                                               "         ,Number" +
                                               "         ,Neighborhood" +
@@ -40,21 +40,19 @@ namespace AndreTurismo.Services
 
                 SqlCommand commandInsert = new SqlCommand(stringInsert, connection);                
 
-                commandInsert.Parameters.Add(new SqlParameter("@Street", address.Street));
-                commandInsert.Parameters.Add(new SqlParameter("@Number", address.Number));
-                commandInsert.Parameters.Add(new SqlParameter("@Neighborhood", address.Neighborhood));
-                commandInsert.Parameters.Add(new SqlParameter("@ZipCode", address.ZipCode));
-                commandInsert.Parameters.Add(new SqlParameter("@Complement", address.Complement));
-                commandInsert.Parameters.Add(new SqlParameter("@City", address.City));
-                commandInsert.Parameters.Add(new SqlParameter("@RegisterDate", address.RegisterDate));
+                commandInsert.Parameters.Add(new SqlParameter("@Street",            address.Street));
+                commandInsert.Parameters.Add(new SqlParameter("@Number",            address.Number));
+                commandInsert.Parameters.Add(new SqlParameter("@Neighborhood",      address.Neighborhood));
+                commandInsert.Parameters.Add(new SqlParameter("@ZipCode",           address.ZipCode));
+                commandInsert.Parameters.Add(new SqlParameter("@Complement",        address.Complement));
+                commandInsert.Parameters.Add(new SqlParameter("@City",              address.City.Id));
+                commandInsert.Parameters.Add(new SqlParameter("@RegisterDate",      address.RegisterDate));
 
-                commandInsert.ExecuteScalar();
-                status = true;
+                status = (int)commandInsert.ExecuteScalar();                
 
             }
             catch (Exception e)
-            {
-                status = false;
+            {                
                 throw new(e.Message);
             }
             finally
@@ -69,7 +67,7 @@ namespace AndreTurismo.Services
 
             StringBuilder sb = new();
             sb.Append("SELECT ");
-            sb.Append("       , a.Id ");
+            sb.Append("       a.Id ");
             sb.Append("       , a.Street ");
             sb.Append("       , a.Number ");
             sb.Append("       , a.Neighborhood ");
@@ -77,7 +75,14 @@ namespace AndreTurismo.Services
             sb.Append("       , a.Complement ");
             sb.Append("       , a.City ");
             sb.Append("       , a.RegisterDate ");
-            sb.Append("   FROM [Address] a");
+
+            sb.Append("       , c.Id ");
+            sb.Append("       , c.Description ");
+            sb.Append("       , c.RegisterDate ");
+
+            sb.Append("   FROM [Address] a,");
+            sb.Append("   [City] c");
+            sb.Append("   WHERE a. City = c.Id");
 
             SqlCommand commandSelect = new(sb.ToString(), connection);
             SqlDataReader dataReader = commandSelect.ExecuteReader();
@@ -92,9 +97,10 @@ namespace AndreTurismo.Services
                 address.Neighborhood =        (string)            dataReader["Neighborhood"];
                 address.ZipCode =             (string)            dataReader["ZipCode"];
                 address.Complement =          (string)            dataReader["Complement"];
-                address.City = new City() 
+                address.City = new City()
                 {
-                    Description =             (string)            dataReader["Description"]
+                    Id =                      (int)               dataReader["Id"]  ,
+                    Description =             (string)            dataReader["Description"]    
                 };
                 address.RegisterDate =        (DateTime)          dataReader["RegisterDate"];
 

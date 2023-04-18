@@ -20,13 +20,13 @@ namespace AndreTurismo.Services
             bool status = false;
             try
             {
-                string stringInsert = "INSERT INTO Ticket " +
+                string stringInsert = "INSERT INTO [Ticket] " +
                                               "(        Home" +
                                               "         ,Destiny" +
                                               "         ,Customer_Name" +
                                               "         ,Date" +
                                               "         ,Price) " +
-                                      "VALUES " +
+                                      "    VALUES " +
                                               "(        @Home" +
                                               "         ,@Destiny" +
                                               "         ,@Customer_Name" +
@@ -35,11 +35,11 @@ namespace AndreTurismo.Services
 
                 SqlCommand commandInsert = new SqlCommand(stringInsert, connection);
 
-                commandInsert.Parameters.Add(new SqlParameter("@Home", ticket.Home));
-                commandInsert.Parameters.Add(new SqlParameter("@Desstiny", ticket.Destiny));
+                commandInsert.Parameters.Add(new SqlParameter("@Home",          ticket.Home));
+                commandInsert.Parameters.Add(new SqlParameter("@Desstiny",      ticket.Destiny));
                 commandInsert.Parameters.Add(new SqlParameter("@Customer_Name", ticket.Customer));
-                commandInsert.Parameters.Add(new SqlParameter("@Date", ticket.Date));
-                commandInsert.Parameters.Add(new SqlParameter("@Price", ticket.Price));
+                commandInsert.Parameters.Add(new SqlParameter("@Date",          ticket.Date));
+                commandInsert.Parameters.Add(new SqlParameter("@Price",         ticket.Price));
 
                 commandInsert.ExecuteNonQuery();
                 status = true;
@@ -65,11 +65,34 @@ namespace AndreTurismo.Services
             StringBuilder sb = new();
             sb.Append("SELECT ");
             sb.Append("       , t.Id ");
-            sb.Append("       , t.Home ");
-            sb.Append("       , t.Destiny ");
-            sb.Append("       , t.Date ");
-            sb.Append("       , t.Price ");
-            sb.Append("   FROM [Ticket] t");
+            sb.Append("       , t.Home HomeId ");
+            sb.Append("       , t.Destiny DestinyId");
+            sb.Append("       , t.Date TickekDate");
+            sb.Append("       , t.Price TicketPrice");
+                       
+            sb.Append("       , h.Street HomeStreet");
+            sb.Append("       , h.Number HomeNumber");
+            sb.Append("       , h.ZipCode HomeZip");
+            sb.Append("       , h.Complemet HomeComplement");
+            sb.Append("       , h.City HomeCity");
+            sb.Append("       , h.RegisterDate HomeDate");
+            
+            sb.Append("       , d.Street DestinyStreet");
+            sb.Append("       , d.Number DestinyNumber");
+            sb.Append("       , d.ZipCode DestinyZIpCode");
+            sb.Append("       , d.Complemet DestinyComplement");
+            sb.Append("       , d.City DestinyCity");
+            sb.Append("       , d.RegisterDate DestinyRegister");
+
+            sb.Append("       , ch.Description CityHomeDescription");
+            sb.Append("       , cd.Description CityDestinyDescription");
+
+            sb.Append("   FROM [Ticket] t," +
+                      "   [Address ] h," +
+                      "   [Address ] d," +
+                      "   [City] ch," +
+                      "   [City] cd" +
+                      "WHERE t.Home = h.Id AND t.Destiny = d.Id AND h.City = ch.Id AND d.City = cd.Id");
 
             SqlCommand commandSelect = new(sb.ToString(), connection);
             SqlDataReader dataReader = commandSelect.ExecuteReader();
@@ -97,7 +120,7 @@ namespace AndreTurismo.Services
 
                 ticket.Destiny = new Address()
                 {
-                    Street =                    (string)            dataReader["Home"],
+                    Street =                    (string)            dataReader["Street"],
                     Number =                    (int)               dataReader["Number"],
                     Neighborhood =              (string)            dataReader["Neighborhood"],
                     ZipCode =                   (string)            dataReader["ZipCode"],

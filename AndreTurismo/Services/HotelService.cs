@@ -20,7 +20,7 @@ namespace AndreTurismo.Services
             bool status = false;
             try
             {
-                string stringInsert = "INSERT INTO Hotel " +
+                string stringInsert = "INSERT INTO [Hotel] " +
                                               "(        Name" +
                                               "         ,Address" +
                                               "         ,RegisterDate" +
@@ -34,10 +34,10 @@ namespace AndreTurismo.Services
 
                 SqlCommand commandInsert = new SqlCommand(stringInsert, connection);
 
-                commandInsert.Parameters.Add(new SqlParameter("@Name", hotel.Name));
-                commandInsert.Parameters.Add(new SqlParameter("@Address", hotel.Address));
-                commandInsert.Parameters.Add(new SqlParameter("@RegisterDate", hotel.RegisterDate));
-                commandInsert.Parameters.Add(new SqlParameter("@Price", hotel.Price));
+                commandInsert.Parameters.Add(new SqlParameter("@Name",          hotel.Name));
+                commandInsert.Parameters.Add(new SqlParameter("@Address",       hotel.Address));
+                commandInsert.Parameters.Add(new SqlParameter("@RegisterDate",  hotel.RegisterDate));
+                commandInsert.Parameters.Add(new SqlParameter("@Price",         hotel.Price));
 
                 commandInsert.ExecuteScalar();
                 status = true;
@@ -76,27 +76,27 @@ namespace AndreTurismo.Services
             {
                 Hotel hotel = new();
 
-                hotel.Id = (int)dataReader["Id"];
-                hotel.Name = (string)dataReader["Name"];
+                hotel.Id =                          (int)               dataReader["Id"];
+                hotel.Name =                        (string)            dataReader["Name"];
                 hotel.Address = new Address()
                 {
 
-                    Street = (string)dataReader["Home"],
-                    Number = (int)dataReader["Number"],
-                    Neighborhood = (string)dataReader["Neighborhood"],
-                    ZipCode = (string)dataReader["ZipCode"],
-                    Complement = (string)dataReader["Complement"],
+                    Street =                        (string)            dataReader["Home"],
+                    Number =                        (int)               dataReader["Number"],
+                    Neighborhood =                  (string)            dataReader["Neighborhood"],
+                    ZipCode =                       (string)            dataReader["ZipCode"],
+                    Complement =                    (string)            dataReader["Complement"],
 
                     City = new City()
                     {
-                        Description = (string)dataReader["Description"]
+                        Description =               (string)            dataReader["Description"]
                     },
-                    RegisterDate = (DateTime)dataReader["RegisterDate"]
+                    RegisterDate =                  (DateTime)          dataReader["RegisterDate"]
 
                 };               
 
-                hotel.RegisterDate = (DateTime)dataReader["RegisterDate"];
-                hotel.Price = (double)dataReader["Price"];
+                hotel.RegisterDate =                (DateTime)          dataReader["RegisterDate"];
+                hotel.Price =                       (double)            dataReader["Price"];
                 
                 hotels.Add(hotel);
             }

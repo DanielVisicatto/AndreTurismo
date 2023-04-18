@@ -10,7 +10,7 @@ namespace AndreTurismo.Controllers
             return new PackageService().Insert(package);
         }
 
-        public List<Hotel> FindAll()
+        public List<Package> FindAll()
         {
             return new PackageService().FindAll();
         }

@@ -16,36 +16,36 @@ namespace AndreTurismo.Services
         }
 
         public int Insert(City city)
-        {
+        {          
             int status = 0;
             try
             {
-                string stringInsert = "INSERT INTO City " +
+                string stringInsert = "INSERT INTO [City] " +
                                               "(        Description" +
-                                              "         ,RegisterDate" +                                           
-                                      "VALUES " +
+                                              "         ,RegisterDate )" +                                           
+                                      "    VALUES " +
                                               "(        @Description" +
-                                              "         ,@RegisterDate)";
+                                              "         ,@RegisterDate);"  +
+                                              "          SELECT CAST(scope_identity() as int)"; 
 
                 SqlCommand commandInsert = new SqlCommand(stringInsert, connection);
 
-                commandInsert.Parameters.Add(new SqlParameter("@Description", city.Description));
-                commandInsert.Parameters.Add(new SqlParameter("@RegisterDate", city.RegisterDate));                
+                commandInsert.Parameters.Add(new SqlParameter("@Description",       city.Description));
+                commandInsert.Parameters.Add(new SqlParameter("@RegisterDate",      city.RegisterDate));                
 
-                status = (int)commandInsert.ExecuteScalar();
-                
+                status = (int)commandInsert.ExecuteScalar();               
 
             }
             catch (Exception e)
             {
-                status = 0;
+                
                 throw new(e.Message);
             }
             finally
             {
                 connection.Close();
             }
-            return (int)status;
+            return status;
         }
 
         public List<City> FindAll() 
@@ -54,8 +54,9 @@ namespace AndreTurismo.Services
 
             StringBuilder sb = new();
             sb.Append("SELECT ");
-            sb.Append("       , c.Description ");
-            sb.Append("       , c.RegisterDate ");            
+            sb.Append("       c.Id ");
+            sb.Append("       ,c.Description ");
+            sb.Append("       ,c.RegisterDate ");            
             sb.Append("   FROM [City] c");
 
             SqlCommand commandSelect = new(sb.ToString(), connection);

@@ -5,7 +5,7 @@ namespace AndreTurismo.Controllers
 {
     public class AddressController
     {
-        public bool Insert(Address address)
+        public int Insert(Address address)
         {
             return new AddressService().Insert(address);
         }
