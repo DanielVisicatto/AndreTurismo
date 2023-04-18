@@ -8,7 +8,7 @@
         public Address Address { get; set; }
         public string? PhoneNumber { get; set; }
         public string? CellPhoneNumber { get; set; }
-        public DateOnly RegisterDate { get; set; }
+        public DateTime RegisterDate { get; set; }
         #endregion
 
         public override string ToString()
