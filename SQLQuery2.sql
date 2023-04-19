@@ -1,0 +1,2 @@
+﻿SELECT * FROM [City];
+DELETE FROM [City];

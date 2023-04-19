@@ -11,13 +11,13 @@ namespace AndreTurismo.Services
 
         public PackageService()
         {
-            connection = new SqlConnection(stringConnection);
-            connection.Open();
+            connection = new SqlConnection(stringConnection);            
         }
 
-        public bool Insert(Package package)
+        public int Insert(Package package)
         {
-            bool status = false;
+            connection.Open();
+            int status = 0;
             try
             {
                 string stringInsert = "INSERT INTO [Package] " +
@@ -38,20 +38,20 @@ namespace AndreTurismo.Services
 
                 City city1 = new() { Description = "Araraquara", RegisterDate = DateTime.Now };
 
-                commandInsert.Parameters.Add(new SqlParameter("@Hotel",         package.Hotel));
+                commandInsert.Parameters.Add(new SqlParameter("@Hotel",         package.Hotel.Id));
                 commandInsert.Parameters.Add(new SqlParameter("@Ticket",        package.Ticket.Id));
                 commandInsert.Parameters.Add(new SqlParameter("@RegisterDate",  package.RegisterDate));
                 commandInsert.Parameters.Add(new SqlParameter("@Price",         package.Price));
-                commandInsert.Parameters.Add(new SqlParameter("@Customer",      package.Customer));
+                commandInsert.Parameters.Add(new SqlParameter("@Customer",      package.Customer.Id));
 
 
-                commandInsert.ExecuteScalar();
-                status = true;
+                status = (int)commandInsert.ExecuteScalar();
+                
 
             }
             catch (Exception e)
             {
-                status = false;
+                
                 throw new(e.Message);
             }
             finally

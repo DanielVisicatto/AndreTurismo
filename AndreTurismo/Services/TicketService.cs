@@ -11,43 +11,43 @@ namespace AndreTurismo.Services
 
         public TicketService()
         {
-            connection = new SqlConnection(stringConnection);
-            connection.Open();
+            connection = new SqlConnection(stringConnection);            
         }
 
-        public bool Insert(Ticket ticket)
+        public int Insert(Ticket ticket)
         {
-            bool status = false;
+            connection.Open();
+            int status = 0;
             try
             {
                 string stringInsert = "INSERT INTO [Ticket] " +
                                               "(        Home" +
                                               "         ,Destiny" +
-                                              "         ,Customer_Name" +
+                                              "         ,Customer" +
                                               "         ,Date" +
                                               "         ,Price) " +
                                       "    VALUES " +
                                               "(        @Home" +
                                               "         ,@Destiny" +
-                                              "         ,@Customer_Name" +
+                                              "         ,@Customer" +
                                               "         ,@Date" +
-                                              "         ,@Price)";
+                                              "         ,@Price)" +
+                                              "         SELECT CAST(scope_identity() as int)";
 
                 SqlCommand commandInsert = new SqlCommand(stringInsert, connection);
 
-                commandInsert.Parameters.Add(new SqlParameter("@Home",          ticket.Home));
-                commandInsert.Parameters.Add(new SqlParameter("@Desstiny",      ticket.Destiny));
-                commandInsert.Parameters.Add(new SqlParameter("@Customer_Name", ticket.Customer));
+                commandInsert.Parameters.Add(new SqlParameter("@Home",          ticket.Home.Id));
+                commandInsert.Parameters.Add(new SqlParameter("@Destiny",       ticket.Destiny.Id));
+                commandInsert.Parameters.Add(new SqlParameter("@Customer",      ticket.Customer.Id));
                 commandInsert.Parameters.Add(new SqlParameter("@Date",          ticket.Date));
                 commandInsert.Parameters.Add(new SqlParameter("@Price",         ticket.Price));
 
-                commandInsert.ExecuteNonQuery();
-                status = true;
+                status = (int)commandInsert.ExecuteScalar();
+                
 
             }
             catch (Exception e)
-            {
-                status = false;
+            {                
                 throw new (e.Message);
             }
             finally
@@ -135,6 +135,7 @@ namespace AndreTurismo.Services
 
                 ticket.Customer = new Customer()
                 {
+                    Id =                        (int)               dataReader["Id"],
                     Name =                      (string)            dataReader["Name"]
                 };
 

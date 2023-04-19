@@ -12,7 +12,7 @@
         {
             return $"ID_cidade:             {Id}\n" +
                    $"Descrição_Cidade:      {Description}\n" +
-                   $"Restrada em:           {RegisterDate}\n\n";
+                   $"Data do Registro:      {RegisterDate}\n";
         }
     }
 }

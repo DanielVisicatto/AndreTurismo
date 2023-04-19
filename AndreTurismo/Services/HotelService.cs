@@ -11,20 +11,20 @@ namespace AndreTurismo.Services
 
         public HotelService()
         {
-            connection = new SqlConnection(stringConnection);
-            connection.Open();
+            connection = new SqlConnection(stringConnection);            
         }
 
-        public bool Insert(Hotel hotel)
+        public int Insert(Hotel hotel)
         {
-            bool status = false;
+            connection.Open();
+            int status = 0;
             try
             {
                 string stringInsert = "INSERT INTO [Hotel] " +
                                               "(        Name" +
                                               "         ,Address" +
                                               "         ,RegisterDate" +
-                                              "         ,Price" +
+                                              "         ,Price)" +
                                       "       VALUES " +
                                               "(        @Name" +
                                               "         ,@Address" +
@@ -35,17 +35,15 @@ namespace AndreTurismo.Services
                 SqlCommand commandInsert = new SqlCommand(stringInsert, connection);
 
                 commandInsert.Parameters.Add(new SqlParameter("@Name",          hotel.Name));
-                commandInsert.Parameters.Add(new SqlParameter("@Address",       hotel.Address));
+                commandInsert.Parameters.Add(new SqlParameter("@Address",       hotel.Address.Id));
                 commandInsert.Parameters.Add(new SqlParameter("@RegisterDate",  hotel.RegisterDate));
                 commandInsert.Parameters.Add(new SqlParameter("@Price",         hotel.Price));
 
-                commandInsert.ExecuteScalar();
-                status = true;
+                status = (int)commandInsert.ExecuteScalar();                
 
             }
             catch (Exception e)
-            {
-                status = false;
+            {                
                 throw new(e.Message);
             }
             finally

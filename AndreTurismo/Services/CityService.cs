@@ -11,12 +11,12 @@ namespace AndreTurismo.Services
 
         static CityService()
         {
-            connection = new SqlConnection(stringConnection);
-            connection.Open();
+            connection = new SqlConnection(stringConnection);            
         }
 
         public int Insert(City city)
-        {          
+        {
+            connection.Open();
             int status = 0;
             try
             {

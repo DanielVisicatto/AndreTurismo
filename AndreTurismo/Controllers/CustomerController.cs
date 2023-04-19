@@ -5,7 +5,7 @@ namespace AndreTurismo.Controllers
 {
     public class CustomerController
     {
-        public bool Insert(Customer customer)
+        public int Insert(Customer customer)
         {
             return new CustomerService().Insert(customer);
         }

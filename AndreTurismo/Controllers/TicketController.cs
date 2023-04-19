@@ -5,9 +5,9 @@ namespace AndreTurismo.Controllers
 {
     public class TicketController
     {
-        public bool Insert (Ticket ticket)
+        public int Insert (Ticket ticket)
         {
-            return new TicketService().Insert (ticket);
+            return new TicketService().Insert(ticket);
         }
 
         public List<Ticket> FindAll()

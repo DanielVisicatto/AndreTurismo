@@ -5,7 +5,7 @@ namespace AndreTurismo.Controllers
 {
     public class HotelController
     {
-        public bool Insert(Hotel hotel)
+        public int Insert(Hotel hotel)
         {
             return new HotelService().Insert(hotel);
         }

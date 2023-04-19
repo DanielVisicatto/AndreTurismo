@@ -11,13 +11,13 @@ namespace AndreTurismo.Services
 
         public CustomerService()
         {
-            connection = new SqlConnection(stringConnection);
-            connection.Open();
+            connection = new SqlConnection(stringConnection);            
         }
 
-        public bool Insert(Customer customer)
+        public int Insert(Customer customer)
         {
-            bool status = false;
+            connection.Open();
+            int status = 0;
             try
             {
                 string stringInsert = "INSERT INTO [Customer] " +
@@ -42,13 +42,11 @@ namespace AndreTurismo.Services
                 commandInsert.Parameters.Add(new SqlParameter("@RegisterDate",      customer.RegisterDate));
                 commandInsert.Parameters.Add(new SqlParameter("@Id_Address",        customer.Address.Id));
 
-                commandInsert.ExecuteScalar();
-                status = true;
+                status = (int)commandInsert.ExecuteScalar();                
 
             }
             catch (Exception e)
-            {
-                status = false;
+            {                
                 throw new(e.Message);
             }
             finally
@@ -57,6 +55,7 @@ namespace AndreTurismo.Services
             }
             return status;
         }
+
         public List<Customer> FindAll() 
         {
             List<Customer> customers = new();

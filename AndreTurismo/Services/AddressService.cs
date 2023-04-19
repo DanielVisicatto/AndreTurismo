@@ -11,12 +11,12 @@ namespace AndreTurismo.Services
 
         public AddressService()
         {
-            connection = new SqlConnection(stringConnection);
-            connection.Open();
+            connection = new SqlConnection(stringConnection);            
         }
 
         public int Insert(Address address)
         {
+            connection.Open();
             int status = 0;
             try
             {

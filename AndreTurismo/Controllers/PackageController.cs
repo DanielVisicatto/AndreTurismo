@@ -5,7 +5,7 @@ namespace AndreTurismo.Controllers
 {
     public class PackageController
     {
-        public bool Insert(Package package)
+        public int Insert(Package package)
         {
             return new PackageService().Insert(package);
         }
