@@ -50,29 +50,41 @@ namespace AndreTurismo.Services
 
         public List<City> FindAll() 
         {
-            List <City> cities= new();
-
-            StringBuilder sb = new();
-            sb.Append("SELECT ");
-            sb.Append("       c.Id ");
-            sb.Append("       ,c.Description ");
-            sb.Append("       ,c.RegisterDate ");            
-            sb.Append("   FROM [City] c");
-
-            SqlCommand commandSelect = new(sb.ToString(), connection);
-            SqlDataReader dataReader = commandSelect.ExecuteReader();
-            
-            while (dataReader.Read())
+            try
             {
-                City city = new ();
+                connection.Open();
+                List<City> cities = new();
 
-                city.Id =                       (int)               dataReader["Id"];
-                city.Description =              (string)            dataReader["Description"];
-                city.RegisterDate =             (DateTime)          dataReader["RegisterDate"];
-                
-                cities.Add (city);
-            };
-            return cities;
+                StringBuilder sb = new();
+                sb.Append("SELECT ");
+                sb.Append("       c.Id ");
+                sb.Append("       ,c.Description ");
+                sb.Append("       ,c.RegisterDate ");
+                sb.Append("   FROM [City] c");
+
+                SqlCommand commandSelect = new(sb.ToString(), connection);
+                SqlDataReader dataReader = commandSelect.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    City city = new();
+
+                    city.Id = (int)dataReader["Id"];
+                    city.Description = (string)dataReader["Description"];
+                    city.RegisterDate = (DateTime)dataReader["RegisterDate"];
+
+                    cities.Add(city);
+                };
+                return cities;
+            }
+            catch (Exception e)
+            {
+                throw new (e.Message);
+            }
+            finally
+            {
+                connection.Close ();
+            }            
         }
     }
 }

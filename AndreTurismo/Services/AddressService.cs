@@ -63,50 +63,65 @@ namespace AndreTurismo.Services
         }
         public List<Address> FindAll()
         {
-            List<Address> addresses = new();
-
-            StringBuilder sb = new();
-            sb.Append("SELECT ");
-            sb.Append("       a.Id ");
-            sb.Append("       , a.Street ");
-            sb.Append("       , a.Number ");
-            sb.Append("       , a.Neighborhood ");
-            sb.Append("       , a.ZipCode ");
-            sb.Append("       , a.Complement ");
-            sb.Append("       , a.City ");
-            sb.Append("       , a.RegisterDate ");
-
-            sb.Append("       , c.Id ");
-            sb.Append("       , c.Description ");
-            sb.Append("       , c.RegisterDate ");
-
-            sb.Append("   FROM [Address] a,");
-            sb.Append("   [City] c");
-            sb.Append("   WHERE a. City = c.Id");
-
-            SqlCommand commandSelect = new(sb.ToString(), connection);
-            SqlDataReader dataReader = commandSelect.ExecuteReader();
-
-            while (dataReader.Read())
+            try
             {
-                Address address = new();
+                connection.Open();
+                List<Address> addresses = new();
 
-                address.Id =                  (int)               dataReader["Id"];
-                address.Street =              (string)            dataReader["Street"];
-                address.Number =              (int)               dataReader["Number"];
-                address.Neighborhood =        (string)            dataReader["Neighborhood"];
-                address.ZipCode =             (string)            dataReader["ZipCode"];
-                address.Complement =          (string)            dataReader["Complement"];
-                address.City = new City()
+                StringBuilder sb = new();
+                sb.Append("SELECT ");
+                sb.Append("       a.Id AddressId ");
+                sb.Append("       , a.Street AddressStreet ");
+                sb.Append("       , a.Number AddressNumb");
+                sb.Append("       , a.Neighborhood AddressNeigh");
+                sb.Append("       , a.ZipCode AddressZip");
+                sb.Append("       , a.Complement AddressComp");
+                sb.Append("       , a.City AddressCity");
+                sb.Append("       , a.RegisterDate AddresReg");
+
+                sb.Append("       , c.Id CityId");
+                sb.Append("       , c.Description CityDesc");
+                sb.Append("       , c.RegisterDate CityReg");
+
+                sb.Append("   FROM [Address] a,");
+                sb.Append("   [City] c");
+                sb.Append("   WHERE a. City = c.Id");
+
+                SqlCommand commandSelect = new(sb.ToString(), connection);
+                SqlDataReader dataReader = commandSelect.ExecuteReader();
+
+                while (dataReader.Read())
                 {
-                    Id =                      (int)               dataReader["Id"]  ,
-                    Description =             (string)            dataReader["Description"]    
-                };
-                address.RegisterDate =        (DateTime)          dataReader["RegisterDate"];
+                    Address address = new();
 
-                addresses.Add(address);
+                    address.Id =                    (int)               dataReader["AddressId"];
+                    address.Street =                (string)            dataReader["AddressStreet"];
+                    address.Number =                (int)               dataReader["AddressNumb"];
+                    address.Neighborhood =          (string)            dataReader["AddressNeigh"];
+                    address.ZipCode =               (string)            dataReader["AddressZip"];
+                    address.Complement =            (string)            dataReader["AddressComp"];
+                    address.City = new City()
+                    {
+                        Id =                        (int)               dataReader["CityId"],
+                        Description =               (string)            dataReader["CityDesc"],
+                        RegisterDate=               (DateTime)          dataReader["CityReg"]
+                    };
+                    address.RegisterDate =          (DateTime)          dataReader["AddresReg"];
+
+                    addresses.Add(address);
+                }
+                return addresses;
+
             }
-            return addresses;
+            catch (Exception e)
+            {
+                throw new (e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            
         }
     }
 }
