@@ -1,10 +1,10 @@
 ﻿using AndreTurismo.Controllers;
 using AndreTurismo.Models;
 
-
 Console.WriteLine("Proj - AndreTurismo");
-Console.WriteLine("Incluindo dados");
+Console.WriteLine("Incluindo dados...");
 
+#region[Mocked Data]
 City city = new()
 {
     Description = "Araraquara",
@@ -12,14 +12,13 @@ City city = new()
 };
 city.Id = new CityController().Insert(city);
 
-
 City hotelCity = new City()
 {
     Description = "São Paulo",
     RegisterDate = DateTime.Now,
 };
+
 hotelCity.Id = new CityController().Insert(hotelCity);
-//new CityController().FindAll().ForEach(Console.WriteLine);
 
 Address address = new()
 {
@@ -42,10 +41,9 @@ Address hotelAddress = new()
     ZipCode = "11.252-850",
     Complement = "",
     RegisterDate = DateTime.Now,
-
 };
 hotelAddress.Id = new AddressController().Insert(hotelAddress);
-//new AddressController().FindAll().ForEach(Console.WriteLine);
+
 
 Customer customer = new()
 {
@@ -56,19 +54,15 @@ Customer customer = new()
     RegisterDate = DateTime.Now
 };
 customer.Id = new CustomerController().Insert(customer);
-//new CustomerController().FindAll().ForEach(Console.WriteLine);
-
-
 
 Hotel hotel = new()
-{    
+{
     Name = "Real_Garden",
     Address = hotelAddress,
     RegisterDate = DateTime.Now,
     Price = 185.00
 };
 hotel.Id = new HotelController().Insert(hotel);
-//new HotelController().FindAll().ForEach(Console.WriteLine);
 
 Ticket ticket = new()
 {
@@ -79,7 +73,6 @@ Ticket ticket = new()
     Price = hotel.Price,
 };
 ticket.Id = new TicketController().Insert(ticket);
-//new TicketController().FindAll().ForEach(Console.WriteLine);
 
 Package package = new()
 {
@@ -90,4 +83,53 @@ Package package = new()
     Customer = customer,
 };
 package.Id = new PackageController().Insert(package);
+
+#endregion
+
+Console.WriteLine("Selecione a opção desejada");
+
+
+
+
+
 new PackageController().FindAll().ForEach(Console.WriteLine);
+
+int Menu()
+{
+
+    Console.WriteLine("______________________________________________");
+    Console.WriteLine("|                                             |");
+    Console.WriteLine("|              Proj - AndreTurismo            |");
+    Console.WriteLine("|_____________________________________________|");
+    Console.WriteLine("|***********    Dados Mockados    ************|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*          Selecione a opção desejada       *|");
+    Console.WriteLine("|*___________________________________________*|");
+    Console.WriteLine("|*   1  -  Clientes                          *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   2  -  Endereços                         *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   3  -  Hotéis                            *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   4  -  Cidades                           *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   5  -  Trazer todos os livros            *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   6  -  Sair                              *|");
+    Console.WriteLine("|*___________________________________________*|");
+
+    if (!int.TryParse(Console.ReadLine(), out var opcao))
+    {
+        Console.Clear();
+        Console.WriteLine("Opção inválida");
+        Thread.Sleep(2000);
+        Console.Clear();
+
+        return 0;
+    }
+    else
+    {
+        return opcao;
+    }
+
+}
