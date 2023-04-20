@@ -106,7 +106,7 @@ do
                         break;
 
                     case 1:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        customer.Id = new CustomerController().Insert(customer);
                         Console.ReadLine();
                         break;
                         
@@ -152,7 +152,7 @@ do
                         break;
 
                     case 1:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        address.Id = new AddressController().Insert(address);
                         Console.ReadLine();
                         break;
 
@@ -198,7 +198,7 @@ do
                         break;
 
                     case 1:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        hotel.Id = new HotelController().Insert(hotel);
                         Console.ReadLine();
                         break;
 
@@ -244,7 +244,8 @@ do
                         break;
 
                     case 1:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        city.Id = new CityController().Insert(city);
+                        hotelCity.Id = new CityController().Insert(hotelCity);
                         Console.ReadLine();
                         break;
 
@@ -290,7 +291,7 @@ do
                         break;
 
                     case 1:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        ticket.Id = new TicketController().Insert(ticket);
                         Console.ReadLine();
                         break;
 
@@ -326,7 +327,7 @@ do
                         break;
 
                     case 1:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        package.Id = new PackageController().Insert(package);
                         Console.ReadLine();
                         break;
 
