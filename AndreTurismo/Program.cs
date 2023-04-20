@@ -2,7 +2,6 @@
 using AndreTurismo.Models;
 int op;
 
-
 #region[Mocked Data]
 City city = new()
 {
@@ -83,8 +82,6 @@ Package package = new()
 //package.Id = new PackageController().Insert(package);
 
 #endregion
-
-
 
 #region[Switch Option]
 do
