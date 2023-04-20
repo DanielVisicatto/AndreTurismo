@@ -317,7 +317,7 @@ do
             do
             {
                 Console.Clear();
-                op6 = TicketMenu();
+                op6 = PackageMenu();
                 switch (op6)
                 {
                     default:
