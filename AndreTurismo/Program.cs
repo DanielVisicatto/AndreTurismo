@@ -1,8 +1,7 @@
 ﻿using AndreTurismo.Controllers;
 using AndreTurismo.Models;
+int op;
 
-Console.WriteLine("Proj - AndreTurismo");
-Console.WriteLine("Incluindo dados...");
 
 #region[Mocked Data]
 City city = new()
@@ -43,7 +42,6 @@ Address hotelAddress = new()
     RegisterDate = DateTime.Now,
 };
 //hotelAddress.Id = new AddressController().Insert(hotelAddress);
-
 
 Customer customer = new()
 {
@@ -86,51 +84,282 @@ Package package = new()
 
 #endregion
 
-int op;
 
-/*do
+
+#region[Switch Option]
+do
 {
     Console.Clear();
     op = FirstMenu();
     switch (op)
     {
+        default: Console.WriteLine("Opção Inválida");            
+            break;
         case 1:
-            CustomerMenu();
+            int op1;
+            do
+            {                 
+                Console.Clear();
+                op1 = CustomerMenu();
+                switch (op1)
+                {
+                    default:
+                        Console.WriteLine("Opção inválida");
+                        op1 = 6;
+                        break;
+
+                    case 1:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+                        
+                    case 2:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("CLIENTES\n");
+                        new CustomerController().FindAll().ForEach(Console.WriteLine);
+                        Console.ReadLine();
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 5:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 6:
+                        break;
+                }
+            } while (op1 != 6);            
             break;
 
-        case 2:
-            AddressMenu();
+        case 2:            
+            Console.Clear();
+            int op2;
+            do
+            {
+                Console.Clear();
+                op2 = AddressMenu();
+                switch (op2)
+                {
+                    default:
+                        Console.WriteLine("Opção inválida");
+                        op2 = 6;
+                        break;
+
+                    case 1:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 2:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("ENDEREÇOS\n");
+                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        Console.ReadLine();
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 5:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 6:
+                        break;
+                }
+            } while (op2 != 6);
             break;
 
         case 3:
-            HotelMenu();
+            Console.Clear();            
+            int op3;
+            do
+            {
+                Console.Clear();
+                op3 = HotelMenu();
+                switch (op3)
+                {
+                    default:
+                        Console.WriteLine("Opção inválida");
+                        op3 = 6;
+                        break;
+
+                    case 1:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 2:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("HOTÉIS\n");
+                        new HotelController().FindAll().ForEach(Console.WriteLine);
+                        Console.ReadLine();
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 5:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 6:
+                        break;
+                }
+            } while (op3 != 6);            
             break;
 
         case 4:
-            CityMenu();
+            Console.Clear();
+            int op4;
+            do
+            {
+                Console.Clear();
+                op4 = CityMenu();
+                switch (op4)
+                {
+                    default:
+                        Console.WriteLine("Opção inválida");
+                        op4 = 6;
+                        break;
+
+                    case 1:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 2:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("CIDADES\n");
+                        new CityController().FindAll().ForEach(Console.WriteLine);
+                        Console.ReadLine();
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 5:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 6:
+                        break;
+                }
+            } while (op4 != 6);
             break;
 
         case 5:
-            TicketlMenu();
+            Console.Clear();
+            int op5;
+            do
+            {
+                Console.Clear();
+                op5 = TicketMenu();
+                switch (op5)
+                {
+                    default:
+                        Console.WriteLine("Opção inválida");
+                        op5 = 4;
+                        break;
+
+                    case 1:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 2:
+                        Console.WriteLine("PASSAGENS\n");
+                        new TicketController().FindAll().ForEach(Console.WriteLine);
+                        Console.ReadLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;                    
+
+                    case 4:
+                        break;
+                }
+            } while (op5 != 4);
             break;
 
         case 6:
-            PackageMenu();
+            Console.Clear();
+            int op6;
+            do
+            {
+                Console.Clear();
+                op6 = TicketMenu();
+                switch (op6)
+                {
+                    default:
+                        Console.WriteLine("Opção inválida");
+                        op6 = 4;
+                        break;
+
+                    case 1:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 2:
+                        Console.WriteLine("PACOTES\n");
+                        new PackageController().FindAll().ForEach(Console.WriteLine);
+                        Console.ReadLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.ReadLine();
+                        break;
+
+                    case 4:
+                        break;
+                }
+            } while (op6 != 4);
             break;
 
         case 7:
+            Console.Clear();
+            Console.WriteLine("Obrigado por utilizar nossos serviços!");
             Environment.Exit(0);
             break;
     }        
 } while (op != 7);
-*/
+#endregion
 
-new CustomerController().FindAll().ForEach(Console.WriteLine);
-new AddressController().FindAll().ForEach(Console.WriteLine);
-new CityController().FindAll().ForEach(Console.WriteLine);
-new TicketController().FindAll().ForEach(Console.WriteLine);
-new PackageController().FindAll().ForEach(Console.WriteLine);
-
+#region[InteractiveMenu]
 int FirstMenu()
 {
 
@@ -154,7 +383,7 @@ int FirstMenu()
     Console.WriteLine("|*                                           *|");
     Console.WriteLine("|*   6  -  Pacotes                           *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   7  -  Voltar                            *|");
+    Console.WriteLine("|*   7  -  Sair                              *|");
     Console.WriteLine("|*___________________________________________*|");
 
     if (!int.TryParse(Console.ReadLine(), out var option))
@@ -180,14 +409,16 @@ int CustomerMenu()
     Console.WriteLine("|*                                           *|");
     Console.WriteLine("|*   2  -  Buscar Cliente                    *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   3  -  Atualizar Cliente                 *|");
+    Console.WriteLine("|*   3  -  Listar Clientes                   *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   4  -  Deletar                           *|");
+    Console.WriteLine("|*   4  -  Atualizar Cliente                 *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   5  -  Sair                              *|");
+    Console.WriteLine("|*   5  -  Deletar                           *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   6  -  Voltar                            *|");
     Console.WriteLine("|*___________________________________________*|");
 
-    if (!int.TryParse(Console.ReadLine(), out var subOpcao1))
+    if (!int.TryParse(Console.ReadLine(), out var customerOption))
     {
         Console.Clear();
         Console.WriteLine("Opção inválida");
@@ -198,7 +429,7 @@ int CustomerMenu()
     }
     else
     {
-        return subOpcao1;
+        return customerOption;
     }
 }
 int AddressMenu()
@@ -209,11 +440,13 @@ int AddressMenu()
     Console.WriteLine("|*                                           *|");
     Console.WriteLine("|*   2  -  Buscar Endereço                   *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   3  -  Atualizar Endereço                *|");
+    Console.WriteLine("|*   3  -  Listar Endereços                  *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   4  -  Deletar Endereço                  *|");
+    Console.WriteLine("|*   4  -  Atualizar Endereço                *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   5  -  Voltar                            *|");
+    Console.WriteLine("|*   5  -  Deletar Endereço                  *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   6  -  Voltar                            *|");
     Console.WriteLine("|*___________________________________________*|");
 
     if (!int.TryParse(Console.ReadLine(), out var addressOption))
@@ -238,11 +471,13 @@ int HotelMenu()
     Console.WriteLine("|*                                           *|");
     Console.WriteLine("|*   2  -  Buscar Hotel                      *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   3  -  Atualizar Hotel                   *|");
+    Console.WriteLine("|*   3  -  Listar Hotéis                     *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   4  -  Deletar hotel                     *|");
+    Console.WriteLine("|*   4  -  Atualizar Hotel                   *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   5  -  Voltar                            *|");
+    Console.WriteLine("|*   5  -  Deletar hotel                     *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   6  -  Voltar                            *|");
     Console.WriteLine("|*___________________________________________*|");
 
     if (!int.TryParse(Console.ReadLine(), out var hotelOption))
@@ -267,11 +502,13 @@ int CityMenu()
     Console.WriteLine("|*                                           *|");
     Console.WriteLine("|*   2  -  Buscar Cidade                     *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   3  -  Atualizar Cidade                  *|");
+    Console.WriteLine("|*   3  -  Listar Cidades                    *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   4  -  Deletar Cidade                    *|");
+    Console.WriteLine("|*   4  -  Atualizar Cidade                  *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   5  -  Voltar                            *|");
+    Console.WriteLine("|*   5  -  Deletar Cidade                    *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   6  -  Voltar                            *|");
     Console.WriteLine("|*___________________________________________*|");
 
     if (!int.TryParse(Console.ReadLine(), out var cityOption))
@@ -288,7 +525,7 @@ int CityMenu()
         return cityOption;
     }
 }
-int TicketlMenu()
+int TicketMenu()
 {
     Console.WriteLine("_______________________________________________");
     Console.WriteLine("|                                             |");
@@ -342,3 +579,4 @@ int PackageMenu()
         return packageOption;
     }
 }
+#endregion

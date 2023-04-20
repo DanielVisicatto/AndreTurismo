@@ -14,11 +14,11 @@
         public override string ToString()
         {
             return $"ID:                {Id}\n" +
-                   $"Hotel:             {Hotel.Name}\n" +
-                   $"Passagem:          {Ticket.Id}\n" +
+                   $"Hotel:             {Hotel}\n" +
+                   $"Passagem:          {Ticket}\n" +
                    $"Data_Registro:     {RegisterDate}\n" +
                    $"Preço:             {Price}\n" +
-                   $"Cliente:           {Customer.Name}\n";
+                   $"Cliente:           {Customer}\n";
         }
     }
 }

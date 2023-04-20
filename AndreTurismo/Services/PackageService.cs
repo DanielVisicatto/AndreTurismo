@@ -70,51 +70,63 @@ namespace AndreTurismo.Services
 
                 StringBuilder sb = new();
                 sb.Append("SELECT ");
-                sb.Append("        p.Id ");
+                sb.Append("        p.Id PackageId");
                 sb.Append("       , p.Hotel ");
                 sb.Append("       , p.Ticket ");
-                sb.Append("       , p.RegisterDate ");
-                sb.Append("       , p.Price ");
+                sb.Append("       , p.RegisterDate PackageReg");
+                sb.Append("       , p.Price PackagePrice");
                 sb.Append("       , p.Customer ");
 
                 sb.Append("       , h.Id IdHotel ");
                 sb.Append("       , h.Name HotelName ");
                 sb.Append("       , h.Address HotelAddress ");
+                sb.Append("       , h.RegisterDate HotelReg ");
+                sb.Append("       , h.Price HotelPrice ");
 
-                sb.Append("       , ah.Id HotelID ");
-                sb.Append("       , ah.Street HotelStreet ");
-                sb.Append("       , ah.Number HotelNumber ");
-                sb.Append("       , ah.Neighborhood HotelNeighborhood ");
-                sb.Append("       , ah.ZipCode HotelZipCode ");
-                sb.Append("       , ah.Complement HotelComplement ");
-                sb.Append("       , ah.City HotelCity ");
+                sb.Append("       , ah.Id AddressHotelId ");
+                sb.Append("       , ah.Street AddressHotelStreet ");
+                sb.Append("       , ah.Number AddressHotelNumber ");
+                sb.Append("       , ah.Neighborhood AddressHotelNeigh ");
+                sb.Append("       , ah.ZipCode AddressHotelZip ");
+                sb.Append("       , ah.Complement AddressHotelComplement ");
+                sb.Append("       , ah.City AddressHotelCity ");
+                sb.Append("       , ah.RegisterDate AddressHotelReg ");
+
+                sb.Append("       , hac.Id HotelAddressCityId");
+                sb.Append("       , hac.Description HotelAddressCityDesc");
+                sb.Append("       , hac.RegisterDate HotelAddressCityReg");
 
                 sb.Append("       , c.Id CustomerId ");
                 sb.Append("       , c.Name CustomerName ");
                 sb.Append("       , c.PhoneNumber CustomerPhone ");
                 sb.Append("       , c.CellPhoneNumber CustomerCell ");
-                sb.Append("       , c.RegisterDate CustomerRegister ");
+                sb.Append("       , c.RegisterDate CustomerReg");
                 sb.Append("       , c.Address CustomerAddress ");
 
-                sb.Append("       , ca.Street CustomerStreet ");
+                sb.Append("       , ca.ID CustomerAddressId ");
+                sb.Append("       , ca.Street CustomerAddressStreet ");
                 sb.Append("       , ca.Number CustomerAddressNumb ");
-                sb.Append("       , ca.Neighborhood CustomerNeighborhood ");
-                sb.Append("       , ca.ZiPcode CustomerZipCode ");
-                sb.Append("       , ca.Complement CustomerComplement ");
+                sb.Append("       , ca.Neighborhood CustomerAddressNeigh ");
+                sb.Append("       , ca.ZiPcode CustomerAddressZip ");
+                sb.Append("       , ca.Complement CustomerAddressCompl");
                 sb.Append("       , ca.City CustomerCity ");
+                sb.Append("       , ca.RegisterDate CustomerAddressReg ");
 
-                sb.Append("       , cc.Description CustomerCityDescription ");
+                sb.Append("       , cac.ID CustomerAddressCityId ");
+                sb.Append("       , cac.Description CustomerAddressCityDescription ");
+                sb.Append("       , cac.RegisterDate CustomerAddressCityReg ");
 
                 sb.Append("   FROM [Package] p,");
                 sb.Append("        [Hotel] h,");
                 sb.Append("        [Address] ah,");
-                sb.Append("        [City] ch,");
+                sb.Append("        [City] hac,");
                 sb.Append("        [Customer] c,");
                 sb.Append("        [Address] ca,");
-                sb.Append("        [City] cc ");
+                sb.Append("        [City] cac ");
                 sb.Append("        WHERE p.Hotel = h.Id AND ");
                 sb.Append("        h.Address = ah.Id AND ");
-                sb.Append("        ah.City = cc.Id");
+                sb.Append("        ah.City = hac.Id AND");
+                sb.Append("        ca.City = cac.Id");
 
                 SqlCommand commandSelect = new(sb.ToString(), connection);
                 SqlDataReader dataReader = commandSelect.ExecuteReader();
@@ -123,51 +135,57 @@ namespace AndreTurismo.Services
                 {
                     Package package = new();
 
-                    package.Id =                        (int)               dataReader["Id"];
+                    package.Id =                        (int)               dataReader["PackageId"];
                     package.Hotel = new Hotel()
                     {
-                        Id =                            (int)               dataReader["Id"],
-                        Name =                          (string)            dataReader["Name"],
-                        Address = new Address()
+                        Id =                            (int)               dataReader["IdHotel"],
+                        Name =                          (string)            dataReader["HotelName"],
+                        Address =                       new                 Address()
                         {
-                            Street =                    (string)            dataReader["Home"],
-                            Number =                    (int)               dataReader["Number"],
-                            Neighborhood =              (string)            dataReader["Neighborhood"],
-                            ZipCode =                   (string)            dataReader["ZipCode"],
-                            Complement =                (string)            dataReader["Complement"],
-
+                            Id =                        (int)               dataReader["AddressHotelId"],
+                            Street =                    (string)            dataReader["AddressHotelStreet"],
+                            Number =                    (int)               dataReader["AddressHotelNumber"],
+                            Neighborhood =              (string)            dataReader["AddressHotelNeigh"],
+                            ZipCode =                   (string)            dataReader["AddressHotelZip"],
+                            Complement =                (string)            dataReader["AddressHotelComplement"],
                             City = new City()
                             {
-                                Description =           (string)            dataReader["Description"]
+                                Id =                    (int)               dataReader["HotelAddressCityId"],
+                                Description =           (string)            dataReader["HotelAddressCityDesc"],
+                                RegisterDate =          (DateTime)          dataReader["HotelAddressCityReg"],
                             },
-                            RegisterDate =              (DateTime)          dataReader["RegisterDate"]
-                        }
+                            RegisterDate =              (DateTime)          dataReader["AddressHotelReg"]
+                        },
+                        RegisterDate =                  (DateTime)          dataReader["HotelReg"],
+                        Price =                         (float)             dataReader["HotelPrice"],                        
                     };
 
-                    package.RegisterDate =              (DateTime)          dataReader["RegisterDate"];
-                    package.Price =                     (double)            dataReader["Price"];
-                    package.Customer = new Customer()
+                    package.RegisterDate =              (DateTime)          dataReader["PackageReg"];
+                    package.Price =                     (float)            dataReader["PackagePrice"];
+                    package.Customer =                  new                 Customer()
                     {
-                        Id =                            (int)               dataReader["Id"],
-                        Name =                          (string)            dataReader["Name"],
-                        PhoneNumber =                   (string)            dataReader["PhoneNumber"],
-                        CellPhoneNumber =               (string)            dataReader["CellPhoneNumber"],
-                        RegisterDate =                  (DateTime)          dataReader["RegisterDate"],
-                        Address = new Address()
+                        Id =                            (int)               dataReader["CustomerId"],
+                        Name =                          (string)            dataReader["CustomerName"],
+                        PhoneNumber =                   (string)            dataReader["CustomerPhone"],
+                        CellPhoneNumber =               (string)            dataReader["CustomerCell"],
+                        RegisterDate =                  (DateTime)          dataReader["CustomerReg"],
+                        Address =                       new                 Address()
                         {
-                            Street =                    (string)            dataReader["Home"],
-                            Number =                    (int)               dataReader["Number"],
-                            Neighborhood =              (string)            dataReader["Neighborhood"],
-                            ZipCode =                   (string)            dataReader["ZipCode"],
-                            Complement =                (string)            dataReader["Complement"],
-
-                            City = new City()
+                            Id =                        (int)               dataReader["CustomerAddressId"],
+                            Street =                    (string)            dataReader["CustomerAddressStreet"],
+                            Number =                    (int)               dataReader["CustomerAddressNumb"],
+                            Neighborhood =              (string)            dataReader["CustomerAddressNeigh"],
+                            ZipCode =                   (string)            dataReader["CustomerAddressZip"],
+                            Complement =                (string)            dataReader["CustomerAddressCompl"],
+                            City =                      new                 City()
                             {
-                                Description =           (string)            dataReader["Description"]
+                                Id =                    (int)               dataReader["CustomerAddressCityId"],
+                                Description =           (string)            dataReader["CustomerAddressCityDescription"],
+                                RegisterDate =          (DateTime)          dataReader["CustomerAddressCityReg"],
                             },
-                            RegisterDate =              (DateTime)          dataReader["RegisterDate"]
-
-                        }
+                            RegisterDate =              (DateTime)          dataReader["CustomerAddressReg"],
+                        },
+                        
                     };
                     packages.Add(package);
                 }
@@ -180,9 +198,7 @@ namespace AndreTurismo.Services
             finally
             {
                 connection.Close();
-            }
-
-           
+            }           
         }
     }       
 }
