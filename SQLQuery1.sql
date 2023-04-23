@@ -36,3 +36,10 @@ SELECT * FROM [Customer];
                    [city] ct
                    WHERE c.Id_Address = a.Id
                    AND a.City = ct.Id
+
+                SELECT 
+                      c.ID    
+                      ,c.Description   
+                      ,c.RegisterDate   
+                      FROM [City] c    
+                      WHERE c.Description LIKE '%' + "sao paulo" + '%'

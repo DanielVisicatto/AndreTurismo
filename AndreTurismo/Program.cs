@@ -1,18 +1,20 @@
 ﻿using AndreTurismo.Controllers;
 using AndreTurismo.Models;
+using System.Text;
+
 int op;
 
 #region[Mocked Data]
-City city = new()
+City id = new()
 {
     Description = "Araraquara",
     RegisterDate = DateTime.Now,
 };
 //city.Id = new CityController().Insert(city);
 
-City hotelCity = new City()
+City hotelCity = new()
 {
-    Description = "São Paulo",
+    Description = "Sao Paulo",
     RegisterDate = DateTime.Now,
 };
 
@@ -23,7 +25,7 @@ Address address = new()
     Street = "Rua Dom Pedro I",
     Number = 832,
     Neighborhood = "Vila-Xavier",
-    City = city,
+    City = id,
     ZipCode = "14.810-108",
     Complement = "FD",
     RegisterDate = DateTime.Now
@@ -90,12 +92,13 @@ do
     op = FirstMenu();
     switch (op)
     {
-        default: Console.WriteLine("Opção Inválida");            
+        default:
+            Console.WriteLine("Opção Inválida");
             break;
         case 1:
             int op1;
             do
-            {                 
+            {
                 Console.Clear();
                 op1 = CustomerMenu();
                 switch (op1)
@@ -109,7 +112,7 @@ do
                         customer.Id = new CustomerController().Insert(customer);
                         Console.ReadLine();
                         break;
-                        
+
                     case 2:
                         Console.WriteLine("Esta oportunidade ficará disponível em breve!");
                         Console.ReadLine();
@@ -134,10 +137,10 @@ do
                     case 6:
                         break;
                 }
-            } while (op1 != 6);            
+            } while (op1 != 6);
             break;
 
-        case 2:            
+        case 2:
             Console.Clear();
             int op2;
             do
@@ -184,7 +187,7 @@ do
             break;
 
         case 3:
-            Console.Clear();            
+            Console.Clear();
             int op3;
             do
             {
@@ -226,7 +229,7 @@ do
                     case 6:
                         break;
                 }
-            } while (op3 != 6);            
+            } while (op3 != 6);
             break;
 
         case 4:
@@ -244,13 +247,42 @@ do
                         break;
 
                     case 1:
-                        city.Id = new CityController().Insert(city);
-                        hotelCity.Id = new CityController().Insert(hotelCity);
+                        Console.WriteLine("Insira Descrição da cidade:");
+                        string newcityDesc = Console.ReadLine();
+
+                        City newCity = new()
+                        {
+                            Description = newcityDesc,
+                            RegisterDate = DateTime.Now
+                        };
+                        newCity.Id = new CityController().Insert(newCity);
+                        Console.WriteLine("Registro incluido com sucesso!");
+                        Console.WriteLine(newCity);
+
                         Console.ReadLine();
                         break;
 
                     case 2:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.Clear();
+                        Console.Write("Nome da cidade: ");
+                        string? searchDesc = Console.ReadLine();
+
+                        if (searchDesc != null)
+                        {
+                            Console.WriteLine("CIDADE\n");
+                            CityController cc = new();
+                            List<City> cityFound = cc.FindByDescription(searchDesc);
+                            if (cityFound != null)
+                            {
+                                cityFound.ForEach(x => Console.WriteLine(x));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Cidade não encontrada");
+                            }
+
+                        }
+                        else { Console.WriteLine("Oportunidade não disponível!"); }
                         Console.ReadLine();
                         break;
 
@@ -261,12 +293,52 @@ do
                         break;
 
                     case 4:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        new CityController().FindAll().ForEach(Console.WriteLine);
+                        Console.Write("Digite o ID para editar: ");
+                        if (!int.TryParse(Console.ReadLine(), out var cityId))
+                        {
+                            Console.WriteLine("Id inválido");
+                        }
+                        else
+                        {
+                            City cityFound = new();
+                            Console.Clear();
+                            Console.WriteLine("Nova Descrição:");
+                            cityFound.Description = Console.ReadLine();
+                            cityFound.RegisterDate = DateTime.Now;
+                            cityFound.Id = cityId;
+                            new CityController().UpdateCity(cityId, cityFound);
+                            Console.Clear();
+                            Console.WriteLine("Registro atualizado!");
+                            Console.WriteLine();
+                            Console.WriteLine(cityFound);
+                        }
                         Console.ReadLine();
                         break;
 
                     case 5:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.Clear();
+                        new CityController().FindAll().ForEach(Console.WriteLine);
+                        Console.WriteLine("              ATENÇÃO!             \n" +
+                                          "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
+                        Console.Write("Digite o ID para DELETAR: ");
+                        City cityToDelete = new();
+                        if (!int.TryParse(Console.ReadLine(), out var idToDelete))
+                        {
+                            Console.WriteLine("Id inválido");
+                        }
+                        else
+                        {
+                            try
+                            {
+                                new CityController().DeleteCity(idToDelete, cityToDelete);
+                                Console.WriteLine("Cidade excluída da base de dados!");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($"Erro ao deletar cidade. {e.Message}");                                
+                            }
+                        }
                         Console.ReadLine();
                         break;
 
@@ -304,7 +376,7 @@ do
                     case 3:
                         Console.WriteLine("Esta oportunidade ficará disponível em breve!");
                         Console.ReadLine();
-                        break;                    
+                        break;
 
                     case 4:
                         break;
@@ -353,7 +425,7 @@ do
             Console.WriteLine("Obrigado por utilizar nossos serviços!");
             Environment.Exit(0);
             break;
-    }        
+    }
 } while (op != 7);
 #endregion
 
