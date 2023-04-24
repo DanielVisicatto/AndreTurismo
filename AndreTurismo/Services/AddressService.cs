@@ -147,8 +147,7 @@ namespace AndreTurismo.Services
                 sb.Append("     FROM [Address] a ");
                 sb.Append("     JOIN [City] c ");
                 sb.Append("     ON a.Id = c.Id ");
-                sb.Append("     WHERE a.Id = @Address;");
-                //sb.Append("     SELECT CAST(scope_identity() as int)");
+                sb.Append("     WHERE a.Id = @Address;");                
 
                 SqlCommand commandSelect = new SqlCommand(sb.ToString(), connection);
                 commandSelect.Parameters.AddWithValue("@Address", id);
