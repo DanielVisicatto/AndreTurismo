@@ -32,6 +32,11 @@ namespace AndreTurismo.Controllers
             cityService.UpdateById(id, city);
         }
 
+        public City FindById(int id)
+        {
+            return cityService.FindOne(id);
+        }
+
         public void DeleteCity (int id, City city)
         {
             cityService.Delete(id, city);

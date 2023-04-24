@@ -15,10 +15,11 @@
 
         public override string ToString()
         {
-            return $"Logradouro: {Street}, nº {Number}, Compl:{Complement}\n" +
+            return $"Id: {Id}\n" +
+                   $"Logradouro: {Street}, nº {Number}, Compl:{Complement}\n" +
                    $"Bairro: {Neighborhood},     {City.Description}\n" +
                    $"CEP: {ZipCode}\n" +
-                   $"Registrado em: {RegisterDate}";
+                   $"Registrado em: {RegisterDate}\n";
         }
     }
 }

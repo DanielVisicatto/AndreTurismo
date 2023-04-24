@@ -1,6 +1,5 @@
 ﻿using AndreTurismo.Controllers;
 using AndreTurismo.Models;
-using System.Text;
 
 int op;
 
@@ -155,12 +154,65 @@ do
                         break;
 
                     case 1:
-                        address.Id = new AddressController().Insert(address);
+                        Address newAddress = new();
+                        Console.WriteLine("Preencha com os dados do endereço");
+                        Console.Write("Rua: ");
+                        newAddress.Street = Console.ReadLine();
+                        Console.Write("Nº: ");
+                        if (!int.TryParse(Console.ReadLine(), out var numb))
+                        {
+                            Console.WriteLine("Número inválido");
+                        }
+                        else
+                        {
+                            newAddress.Number = numb;
+                        }
+                        Console.Write("Bairro: ");
+                        newAddress.Neighborhood = Console.ReadLine();
+                        Console.Write("CEP: ");
+                        newAddress.ZipCode = Console.ReadLine();
+                        Console.Write("Complemento: ");
+                        newAddress.Complement = Console.ReadLine();
+                        Console.WriteLine("CIDADES\n");
+                        new CityController().FindAll().ForEach(Console.WriteLine);
+                        Console.WriteLine("Digite ID da cidade");
+                        if (!int.TryParse(Console.ReadLine(), out var cityId))
+                        {
+                            Console.WriteLine("ID inválido!");
+                        }
+                        else
+                        {
+                            City cityFound = new CityController().FindById(cityId);
+                            newAddress.City = cityFound;
+                        }
+
+                        newAddress.RegisterDate = DateTime.Now;
+                        newAddress.Id = new AddressController().Insert(newAddress);
+                        Console.WriteLine("Registro atualizado com sucesso!");
                         Console.ReadLine();
                         break;
 
                     case 2:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.WriteLine("ENDEREÇOS");
+                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        Console.WriteLine("Digite Id desejado");
+                        if (!int.TryParse(Console.ReadLine(), out var searchAddressId))
+                        {
+                            Console.WriteLine("ID digitado inválido!");
+                        }
+                        else
+                        {
+                            Address addressFound = new AddressController().FindById(searchAddressId);
+                            if (addressFound != null)
+                            {
+                                Console.WriteLine("Registro Selecionado:");
+                                Console.WriteLine(addressFound);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Registro não encontrado.");
+                            }
+                        }
                         Console.ReadLine();
                         break;
 
@@ -336,7 +388,7 @@ do
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine($"Erro ao deletar cidade. {e.Message}");                                
+                                Console.WriteLine($"Erro ao deletar cidade. {e.Message}");
                             }
                         }
                         Console.ReadLine();

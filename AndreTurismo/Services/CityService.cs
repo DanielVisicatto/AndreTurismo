@@ -162,7 +162,6 @@ namespace AndreTurismo.Services
                 connection.Close();
             }
         }
-
         public void Delete(int id, City city)
         {
             try
@@ -179,6 +178,48 @@ namespace AndreTurismo.Services
             catch (Exception e)
             {
                 throw new (e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public City FindOne(int id)
+        {
+            try
+            {
+                connection.Open();
+
+                StringBuilder sb = new();
+                sb.Append("SELECT ");
+                sb.Append("      c.ID ");
+                sb.Append("      ,c.Description ");
+                sb.Append("      ,c.RegisterDate ");
+                sb.Append("      FROM [City] c ");
+                sb.Append("      WHERE c.Id = @Id");
+
+                SqlCommand commandSelect = new SqlCommand(sb.ToString(), connection);
+                commandSelect.Parameters.Add(new SqlParameter("@Id", id));
+
+                SqlDataReader dataReader = commandSelect.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    City city = new();
+                    city.Id = (int)dataReader["Id"];
+                    city.Description = (string)dataReader["Description"];
+                    city.RegisterDate = (DateTime)dataReader["RegisterDate"];
+                    return city;
+                }
+                else
+                {
+                    return null!;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new(e.Message);
             }
             finally
             {
