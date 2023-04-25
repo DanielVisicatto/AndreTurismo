@@ -93,19 +93,19 @@ namespace AndreTurismo.Services
                 {
                     Address address = new();
 
-                    address.Id = (int)dataReader["AddressId"];
-                    address.Street = (string)dataReader["AddressStreet"];
-                    address.Number = (int)dataReader["AddressNumb"];
-                    address.Neighborhood = (string)dataReader["AddressNeigh"];
-                    address.ZipCode = (string)dataReader["AddressZip"];
-                    address.Complement = (string)dataReader["AddressComp"];
+                    address.Id =                        (int)               dataReader["AddressId"];
+                    address.Street =                    (string)            dataReader["AddressStreet"];
+                    address.Number =                    (int)               dataReader["AddressNumb"];
+                    address.Neighborhood =              (string)            dataReader["AddressNeigh"];
+                    address.ZipCode =                   (string)            dataReader["AddressZip"];
+                    address.Complement =                (string)            dataReader["AddressComp"];
                     address.City = new City()
                     {
-                        Id = (int)dataReader["CityId"],
-                        Description = (string)dataReader["CityDesc"],
-                        RegisterDate = (DateTime)dataReader["CityReg"]
+                        Id =                            (int)               dataReader["CityId"],
+                        Description =                   (string)            dataReader["CityDesc"],
+                        RegisterDate =                  (DateTime)          dataReader["CityReg"]
                     };
-                    address.RegisterDate = (DateTime)dataReader["AddresReg"];
+                    address.RegisterDate =              (DateTime)          dataReader["AddresReg"];
 
                     addresses.Add(address);
                 }
@@ -226,6 +226,28 @@ namespace AndreTurismo.Services
                 }
                 commandUpdate.ExecuteNonQuery();
 
+            }
+            catch (Exception e)
+            {
+                throw new (e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void Delete(int id)
+        {
+            try
+            {
+                connection.Open();
+
+                string stringDelete = "DELETE FROM [Address] WHERE Id = @Id";
+
+                SqlCommand commandDelete = new SqlCommand(stringDelete, connection);
+                commandDelete.Parameters.AddWithValue("@Id", id);
+
+                commandDelete.ExecuteNonQuery();
             }
             catch (Exception e)
             {

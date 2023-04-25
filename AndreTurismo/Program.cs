@@ -270,7 +270,26 @@ do
                         break;
 
                     case 5:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        Console.WriteLine("              ATENÇÃO!             \n" +
+                                          "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
+                        Console.Write("Digite o ID para DELETAR: ");
+                        if(!int.TryParse(Console.ReadLine(), out var addressToDelete))
+                        {
+                            Console.WriteLine("Id inválido!");
+                        }
+                        {
+                            try
+                            {
+                                new AddressController().DeleteAddress(addressToDelete);
+                                Console.WriteLine("Endereço excluído da base de dados!");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($"Erro ao deletar cidade. {e.Message}");
+                            }
+                        }
+
                         Console.ReadLine();
                         break;
 
@@ -295,7 +314,33 @@ do
                         break;
 
                     case 1:
-                        hotel.Id = new HotelController().Insert(hotel);
+                        Console.WriteLine("Preencha com os dados do Hotel");
+                        Hotel newHotel = new();
+                        Console.Write("Nome: ");
+                        newHotel.Name = Console.ReadLine();
+                        Console.Write("Preço: ");
+                        if(!float.TryParse(Console.ReadLine(), out var price))
+                        {
+                            Console.WriteLine("Preco inválido");
+                        }
+                        else
+                        {
+                             newHotel.Price = price;
+                        }
+                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        newHotel.RegisterDate = DateTime.Now;
+                        Console.Write("Selecione o Endereço: ");
+                        if(!int.TryParse(Console.ReadLine(), out var idAddress))
+                        {
+                            Console.WriteLine("Id do endereço inválido!");
+                        }
+                        else
+                        {
+                            Address addressFound = new AddressController().FindById(idAddress);
+                            newHotel.Address = addressFound;
+                        }
+                        newHotel.Id = new HotelController().Insert(newHotel);
+                        Console.WriteLine("Registro atualizado com sucesso!");
                         Console.ReadLine();
                         break;
 

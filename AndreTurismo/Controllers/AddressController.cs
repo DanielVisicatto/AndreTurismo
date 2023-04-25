@@ -5,21 +5,19 @@ namespace AndreTurismo.Controllers
 {
     public class AddressController
     {
-        private AddressService addressService;
-
+        private AddressService _addressService;
         public AddressController()
         {
-            addressService = new AddressService();
+            _addressService = new AddressService();
         }
-
         public int Insert(Address address)
         {
-            return addressService.Insert(address);
+            return _addressService.Insert(address);
         }
 
         public Address FindById(int id)
         {
-            return addressService.Find(id);
+            return _addressService.Find(id);
         }
 
         //public List<Address> FindByCity(City city, string search)
@@ -29,22 +27,19 @@ namespace AndreTurismo.Controllers
 
         public List<Address> FindAll()
         {
-             return addressService.FindAll();
+             return _addressService.FindAll();
         }  
         
         public void UpdateAddress(Address address)
         {
             new CityService().UpdateById(address.City);
-            addressService.UpdateById(address);
+            _addressService.UpdateById(address);
         }       
         
-        //public void DeleteAddress(int id, City city)
-        //{
-        //    addressService.Delete(id, city);
-        //}
-
-
-
+        public void DeleteAddress(int id)
+        {
+            _addressService.Delete(id);
+        }
 
         //public int Insert(Address address)
         //{

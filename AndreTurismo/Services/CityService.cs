@@ -127,7 +127,6 @@ namespace AndreTurismo.Services
                 connection.Close();
             }
         }
-
         public void UpdateById(City city)
         {
             try
