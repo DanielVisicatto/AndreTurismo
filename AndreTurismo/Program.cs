@@ -196,15 +196,18 @@ do
                         Console.WriteLine("ENDEREÇOS");
                         new AddressController().FindAll().ForEach(Console.WriteLine);
                         Console.WriteLine("Digite Id desejado");
+                        
                         if (!int.TryParse(Console.ReadLine(), out var searchAddressId))
                         {
                             Console.WriteLine("ID digitado inválido!");
                         }
                         else
                         {
+                            Console.Clear();
                             Address addressFound = new AddressController().FindById(searchAddressId);
+                           
                             if (addressFound != null)
-                            {
+                            { 
                                 Console.WriteLine("Registro Selecionado:");
                                 Console.WriteLine(addressFound);
                             }
@@ -222,8 +225,47 @@ do
                         Console.ReadLine();
                         break;
 
-                    case 4:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                    case 4:                        
+                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        Console.Write("Digite o ID para editar: ");
+                        if (!int.TryParse(Console.ReadLine(), out var addressId))
+                        {
+                            Console.WriteLine("Id inválido");
+                        }
+                        else
+                        {
+                            Address addressFound = new();
+                            addressFound.Id = addressId;
+                            Console.Write("Logradouro: ");
+                            addressFound.Street = Console.ReadLine();
+                            Console.Write("Nº: ");
+                            addressFound.Number = int.Parse(Console.ReadLine());
+                            Console.Write("Bairro: ");
+                            addressFound.Neighborhood = Console.ReadLine();
+                            Console.Write("CEP:");
+                            addressFound.ZipCode = Console.ReadLine();
+                            Console.Write("Complemento: ");
+
+                            addressFound.Complement = Console.ReadLine();
+                            new CityController().FindAll().ForEach(Console.WriteLine);
+                            Console.Write("Escolha o ID da Cidade ");
+
+                            if (!int.TryParse(Console.ReadLine(), out var cityFoundId))
+                            {
+                                Console.WriteLine("Cidade não encontrada.");
+                            }
+                            else
+                            {
+                                City cityFound = new CityController().FindById(cityFoundId);
+                                addressFound.RegisterDate = DateTime.Now;
+                                addressFound.City = cityFound;
+                                new AddressController().UpdateAddress(addressFound);
+                                Console.WriteLine("Registro atualizado!");
+                                Console.WriteLine();
+                                Console.WriteLine(addressFound);
+                            }                   
+
+                        }
                         Console.ReadLine();
                         break;
 
@@ -383,7 +425,7 @@ do
                         {
                             try
                             {
-                                new CityController().DeleteCity(idToDelete, cityToDelete);
+                                new CityController().DeleteCity(idToDelete);
                                 Console.WriteLine("Cidade excluída da base de dados!");
                             }
                             catch (Exception e)

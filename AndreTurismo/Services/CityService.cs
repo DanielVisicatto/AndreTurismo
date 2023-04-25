@@ -128,7 +128,7 @@ namespace AndreTurismo.Services
             }
         }
 
-        public void UpdateById(int id, City city)
+        public void UpdateById(City city)
         {
             try
             {
@@ -162,7 +162,7 @@ namespace AndreTurismo.Services
                 connection.Close();
             }
         }
-        public void Delete(int id, City city)
+        public void Delete(int id)
         {
             try
             {
@@ -184,7 +184,6 @@ namespace AndreTurismo.Services
                 connection.Close();
             }
         }
-
         public City FindOne(int id)
         {
             try
@@ -207,9 +206,9 @@ namespace AndreTurismo.Services
                 if (dataReader.Read())
                 {
                     City city = new();
-                    city.Id = (int)dataReader["Id"];
-                    city.Description = (string)dataReader["Description"];
-                    city.RegisterDate = (DateTime)dataReader["RegisterDate"];
+                    city.Id =                   (int)           dataReader["Id"];
+                    city.Description =          (string)        dataReader["Description"];
+                    city.RegisterDate =         (DateTime)      dataReader["RegisterDate"];
                     return city;
                 }
                 else

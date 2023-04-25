@@ -29,7 +29,7 @@ namespace AndreTurismo.Controllers
 
         public void UpdateCity (int id, City city)
         {
-            cityService.UpdateById(id, city);
+            cityService.UpdateById(city);
         }
 
         public City FindById(int id)
@@ -37,9 +37,9 @@ namespace AndreTurismo.Controllers
             return cityService.FindOne(id);
         }
 
-        public void DeleteCity (int id, City city)
+        public void DeleteCity (int id)
         {
-            cityService.Delete(id, city);
+            cityService.Delete(id);
         }
 
         //public int InsertCity(City city)

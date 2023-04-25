@@ -13,7 +13,6 @@ namespace AndreTurismo.Services
         {
             connection = new SqlConnection(stringConnection);
         }
-
         public int Insert(Address address)
         {
             connection.Open();
@@ -49,7 +48,7 @@ namespace AndreTurismo.Services
                 commandInsert.Parameters.Add(new SqlParameter("@City", address.City.Id));
                 commandInsert.Parameters.Add(new SqlParameter("@RegisterDate", address.RegisterDate));
 
-                status = (int)commandInsert.ExecuteNonQuery();
+                status = (int)commandInsert.ExecuteScalar();
             }
             catch (Exception e)
             {
@@ -124,20 +123,20 @@ namespace AndreTurismo.Services
 
         }
         public Address Find(int id)
-        {
-            Address address = new();
+        {            
             try
             {
                 connection.Open();
 
                 StringBuilder sb = new();
-                sb.Append("Select ");
-                sb.Append("     a.Id ");
+                sb.Append("SELECT ");
+                sb.Append("     a.Id AddressId");
                 sb.Append("     ,a.Street ");
                 sb.Append("     ,a.Number ");
                 sb.Append("     ,a.Neighborhood ");
                 sb.Append("     ,a.ZipCode ");
                 sb.Append("     ,a.Complement ");
+                sb.Append("     ,a.City ");
                 sb.Append("     ,a.RegisterDate AddressReg ");
 
                 sb.Append("     ,c.Id CityId ");
@@ -146,7 +145,7 @@ namespace AndreTurismo.Services
 
                 sb.Append("     FROM [Address] a ");
                 sb.Append("     JOIN [City] c ");
-                sb.Append("     ON a.Id = c.Id ");
+                sb.Append("     ON a.City = c.Id ");
                 sb.Append("     WHERE a.Id = @Address;");                
 
                 SqlCommand commandSelect = new SqlCommand(sb.ToString(), connection);
@@ -156,25 +155,29 @@ namespace AndreTurismo.Services
 
                 if (dataReader.Read())
                 {
-                    City city = new()
+                    Address address = new()
                     {
-                        Id =                        (int)               dataReader["CityId"],
-                        Description =               (string)            dataReader["CityDescription"],
-                        RegisterDate =              (DateTime)          dataReader["CityReg"],
-                    };
-
-                    address = new()
-                    {
-                        Id =                        (int)               dataReader["Id"],
-                        Street =                    (string)            dataReader["Street"],
-                        Number =                    (int)               dataReader["Number"],
-                        Neighborhood =              (string)            dataReader["Neighborhood"],
-                        ZipCode =                   (string)            dataReader["ZipCode"],
-                        Complement =                (string)            dataReader["Complement"],
-                        City = city,
-                        RegisterDate =              (DateTime)          dataReader["AddressReg"]
-                    };
+                        Id =                (int)                   dataReader["AddressId"],
+                        Street =            (string)                dataReader["Street"],
+                        Number =            (int)                   dataReader["Number"],
+                        Neighborhood =      (string)                dataReader["Neighborhood"],
+                        ZipCode =           (string)                dataReader["ZipCode"],
+                        Complement =        (string)                dataReader["Complement"],
+                        City = new()
+                        {
+                            Id =            (int)                   dataReader["CityId"],
+                            Description =   (string)                dataReader["CityDescription"],
+                            RegisterDate =  (DateTime)              dataReader["CityReg"],
+                        },
+                        RegisterDate =      (DateTime)              dataReader["AddressReg"],
+                    };                    
+                    return address;
                 }
+                else
+                {
+                    return null!;
+                }
+                
             }
             catch (Exception e)
             {
@@ -183,8 +186,55 @@ namespace AndreTurismo.Services
             finally
             {
                 connection.Close();
+            }            
+        }
+        public void UpdateById(Address address)
+        {
+            try
+            {
+                connection.Open();
+
+                string stringUpdate = "UPDATE [Address] SET " +
+                                      "     Street = @Street " +
+                                      "     ,Number = @Number " +
+                                      "     ,Neighborhood = @Neighborhood " +
+                                      "     ,ZipCode = @ZipCode " +
+                                      "     ,Complement = @Complement " +
+                                      "     ,City = @City " +
+                                      "     ,RegisterDate = @RegisterDate " +                                  
+                                      "WHERE Id = @Id; ";                                     
+
+                SqlCommand commandUpdate = new (stringUpdate, connection);
+
+                commandUpdate.Parameters.Add(new SqlParameter("@Id", address.Id));
+                commandUpdate.Parameters.Add(new SqlParameter("@Street", address.Street));
+                commandUpdate.Parameters.Add(new SqlParameter("@Number", address.Number));
+                commandUpdate.Parameters.Add(new SqlParameter("@Neighborhood", address.Neighborhood));
+                commandUpdate.Parameters.Add(new SqlParameter("@ZipCode", address.ZipCode));
+                commandUpdate.Parameters.Add(new SqlParameter("@Complement", address.Complement));
+                commandUpdate.Parameters.Add(new SqlParameter("@City", address.City.Id));
+                commandUpdate.Parameters.Add(new SqlParameter("@RegisterDate", address.RegisterDate));
+
+                //commandUpdate.Parameters.Add(new SqlParameter("@CityId", city.Id));
+                //commandUpdate.Parameters.Add(new SqlParameter("@Description", city.Description));
+                //commandUpdate.Parameters.Add(new SqlParameter("@CityRegisterDate", city.RegisterDate));
+
+                int updated = commandUpdate.ExecuteNonQuery();
+                if (updated == 0)
+                {
+                    Console.WriteLine($"Endereço de ID: {address.Id} não existe.");
+                }
+                commandUpdate.ExecuteNonQuery();
+
             }
-            return address;
+            catch (Exception e)
+            {
+                throw new (e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }

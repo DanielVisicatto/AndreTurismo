@@ -31,12 +31,13 @@ namespace AndreTurismo.Controllers
         {
              return addressService.FindAll();
         }  
-
-        //public void UpdateAddress(int id, Address address)
-        //{
-        //    addressService.UpdateById(id, address);
-        //}
-
+        
+        public void UpdateAddress(Address address)
+        {
+            new CityService().UpdateById(address.City);
+            addressService.UpdateById(address);
+        }       
+        
         //public void DeleteAddress(int id, City city)
         //{
         //    addressService.Delete(id, city);
