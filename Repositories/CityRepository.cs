@@ -7,33 +7,43 @@ namespace Repositories
 {
     public class CityRepository : ICityRepository
     {
-        private string Connection { get; set; }
+        private string _connection { get; set; }
 
         public CityRepository()
         {
-            Connection = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+            _connection = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
         }
 
-        public List<City> GetAll()
+        public List<City> ReadAll()
         {
-            using (var db = new SqlConnection(Connection))
+            List<City> cities = new();
+            using (var db = new SqlConnection(_connection))
             {
                 db.Open();
-                var cities = db.Query<City>(City.GETALL);
-                return (List<City>)cities;
+                cities = db.Query<City>(City.GETALL).ToList();                
             }
+            return cities;
         }
 
-        public bool Insert(City city)
+        public int Create(City city)
         {
-            var status = false;
-            using (var db = new SqlConnection(Connection))
+            int id;
+            using (var db = new SqlConnection(_connection))
             {
                 db.Open();
-                db.Execute(Address.INSERT, city);
-                status = true;
+                id = db.ExecuteScalar<int>(City.INSERT, city);                 
             }
-            return status;
+            return id;
+        }       
+
+        public void Update(City city)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

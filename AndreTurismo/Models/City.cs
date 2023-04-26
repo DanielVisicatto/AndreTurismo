@@ -3,6 +3,8 @@
     public class City
     {
         #region[Properties]
+        public static readonly string INSERT = "INSERT INTO [City] (Description) VALUES (@Description);" +
+                                        "SELECT CAST (scope_identity() AS int)";
         public int Id { get; set; }
         public string? Description { get; set; }
         public DateTime RegisterDate { get; set; }
