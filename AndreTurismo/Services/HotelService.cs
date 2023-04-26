@@ -159,8 +159,8 @@ namespace AndreTurismo.Services
 
                 sb.Append("      FROM [Hotel] h ");
                 sb.Append("      JOIN [Address] a ");
-                sb.Append("      JOIN [City] c ");
                 sb.Append("      ON h.Address = a.Id ");
+                sb.Append("      JOIN [City] c ");
                 sb.Append("      ON a.City = c.Id ");
                 sb.Append("      WHERE h.Id = @Hotel ");
 
@@ -205,6 +205,119 @@ namespace AndreTurismo.Services
             catch (Exception e)
             {
 
+                throw new (e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public List<Hotel> FindName(string name)
+        {
+            try
+            {
+                connection.Open();
+                List<Hotel> hotels = new();
+
+                StringBuilder sb = new();
+                sb.Append("SELECT ");
+                sb.Append("      h.Id HotelId ");
+                sb.Append("      ,h.Name HotelName ");
+                sb.Append("      ,h.RegisterDate HotelReg ");
+                sb.Append("      ,h.Price HotelPrice ");
+
+                sb.Append("      ,a.Id HotelAddressId ");
+                sb.Append("      ,a.Street HotelAddrressStreet ");
+                sb.Append("      ,a.Number HotelAddressNumber ");
+                sb.Append("      ,a.Neighborhood HotelAddressNeighborhood ");
+                sb.Append("      ,a.ZipCode HotelAddressZipCode ");
+                sb.Append("      ,a.Complement HotelAddressComplement ");
+                sb.Append("      ,a.City HotelAddressCity ");
+                sb.Append("      ,a.RegisterDate HoteAddresslReg ");
+
+                sb.Append("      ,c.Id HotelAddressCityId ");
+                sb.Append("      ,c.Description HotelAddressCityDescription ");
+                sb.Append("      ,c.RegisterDate HotelAddressCityReg ");
+
+                sb.Append("      FROM [Hotel] h ");
+                sb.Append("      JOIN [Address] a ");
+                sb.Append("      ON h.Address = a.Id ");
+                sb.Append("      JOIN [City] c ");
+                sb.Append("      ON a.City = c.Id ");
+                sb.Append("      WHERE h.Name LIKE '%' + @Name + '%' ;");
+
+                SqlCommand commandSelect = new SqlCommand(sb.ToString(), connection);
+                commandSelect.Parameters.AddWithValue("@Name", name);
+
+                SqlDataReader dataReader = commandSelect.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    Hotel hotel = new()
+                    {
+                        Id =                                (int)           dataReader["HotelId"],
+                        Name =                              (string)        dataReader["HotelName"],
+                        Address = new()
+                        {
+                            Id =                            (int)           dataReader["HotelAddressId"],
+                            Street =                        (string)        dataReader["HotelAddrressStreet"],
+                            Number =                        (int)           dataReader["HotelAddressNumber"],
+                            Neighborhood =                  (string)        dataReader["HotelAddressNeighborhood"],
+                            ZipCode =                       (string)        dataReader["HotelAddressZipCode"],
+                            Complement =                    (string)        dataReader["HotelAddressComplement"],
+                            City = new()
+                            {
+                                Id =                        (int)           dataReader["HotelAddressCityId"],
+                                Description =               (string)        dataReader["HotelAddressCityDescription"],
+                                RegisterDate =              (DateTime)      dataReader["HotelAddressCityReg"],
+                            },
+                            RegisterDate =                  (DateTime)      dataReader["HoteAddresslReg"],
+                        },
+                        RegisterDate =                      (DateTime)      dataReader["HotelReg"],
+                        Price =                             (float)         dataReader["HotelPrice"],
+                       
+                    };
+                    hotels.Add(hotel);
+                }
+                return hotels;
+            }
+            catch (Exception e)
+            {
+
+                throw new(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void Update(Hotel hotel)
+        {
+            try
+            {
+                connection.Open();
+
+                StringBuilder sb = new();
+                sb.Append("UPDATE [Hotel] SET");
+                sb.Append("       Name = @Name ");
+                sb.Append("       Address = @Address ");
+                sb.Append("       RegisterDate = @RegisterDate ");
+                sb.Append("       Price = @Price ");
+                sb.Append("WHERE Id = @Id;");
+
+                SqlCommand commandUpdate = new SqlCommand(sb.ToString(), connection);
+                commandUpdate.Parameters.AddWithValue("@Id", hotel.Id);
+
+                commandUpdate.Parameters.Add(new SqlParameter("@Id", hotel.Id));
+                commandUpdate.Parameters.Add(new SqlParameter("@Name", hotel.Name));
+                commandUpdate.Parameters.Add(new SqlParameter("@Address", hotel.Address.Id));
+                commandUpdate.Parameters.Add(new SqlParameter("@RegisterDate", hotel.RegisterDate));
+                commandUpdate.Parameters.Add(new SqlParameter("@Price", hotel.Price));
+
+
+            }
+            catch (Exception e)
+            {
                 throw new (e.Message);
             }
             finally

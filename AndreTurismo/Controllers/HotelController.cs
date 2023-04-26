@@ -26,5 +26,9 @@ namespace AndreTurismo.Controllers
         {
             return _hotelService.FindName(name);
         }
+        public void UpdateHotel(Hotel hotel)
+        {
+            _hotelService.Update(hotel);
+        }
     }
 }

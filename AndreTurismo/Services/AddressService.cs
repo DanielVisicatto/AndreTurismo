@@ -213,11 +213,7 @@ namespace AndreTurismo.Services
                 commandUpdate.Parameters.Add(new SqlParameter("@ZipCode", address.ZipCode));
                 commandUpdate.Parameters.Add(new SqlParameter("@Complement", address.Complement));
                 commandUpdate.Parameters.Add(new SqlParameter("@City", address.City.Id));
-                commandUpdate.Parameters.Add(new SqlParameter("@RegisterDate", address.RegisterDate));
-
-                //commandUpdate.Parameters.Add(new SqlParameter("@CityId", city.Id));
-                //commandUpdate.Parameters.Add(new SqlParameter("@Description", city.Description));
-                //commandUpdate.Parameters.Add(new SqlParameter("@CityRegisterDate", city.RegisterDate));
+                commandUpdate.Parameters.Add(new SqlParameter("@RegisterDate", address.RegisterDate));                
 
                 int updated = commandUpdate.ExecuteNonQuery();
                 if (updated == 0)

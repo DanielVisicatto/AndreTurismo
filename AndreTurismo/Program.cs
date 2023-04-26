@@ -345,8 +345,31 @@ do
                         break;
 
                     case 2:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
-                        Console.ReadLine();
+                        Console.WriteLine("Digite o nome do Hotel para buscar");
+                        string? searchHotel = Console.ReadLine();
+
+                        if (searchHotel != null)
+                        {
+                            Console.WriteLine("HOTEL\n");
+                            HotelController hc = new();
+                            List<Hotel> hotelFound = hc.FindByName(searchHotel);
+                            if (hotelFound != null)
+                            {
+                                hotelFound.ForEach(x => Console.WriteLine(x));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Cidade não encontrada");
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Oportunidade não disponível!");
+                        }
+                        Console.ReadLine();  
+                        
+                        
                         break;
 
                     case 3:
