@@ -140,22 +140,22 @@ namespace AndreTurismo.Services
                 StringBuilder sb = new();
                 sb.Append("SELECT ");
                 sb.Append("      h.Id HotelId ");
-                sb.Append("      h.Name HotelName ");
-                sb.Append("      h.RegisterDate HotelReg ");
-                sb.Append("      h.Price HotelPrice ");
+                sb.Append("      ,h.Name HotelName ");
+                sb.Append("      ,h.RegisterDate HotelReg ");
+                sb.Append("      ,h.Price HotelPrice ");
 
-                sb.Append("      a.Id HotelAddressId ");
-                sb.Append("      a.Street HotelAddrressStreet ");
-                sb.Append("      a.Number HotelAddressNumber ");
-                sb.Append("      a.Neighborhood HotelAddressNeighborhood ");
-                sb.Append("      a.ZipCode HotelAddressZipCode ");
-                sb.Append("      a.Complement HotelAddressComplement ");
-                sb.Append("      a.City HotelAddressCity ");
-                sb.Append("      a.RegisterDate HoteAddresslReg ");
+                sb.Append("      ,a.Id HotelAddressId ");
+                sb.Append("      ,a.Street HotelAddrressStreet ");
+                sb.Append("      ,a.Number HotelAddressNumber ");
+                sb.Append("      ,a.Neighborhood HotelAddressNeighborhood ");
+                sb.Append("      ,a.ZipCode HotelAddressZipCode ");
+                sb.Append("      ,a.Complement HotelAddressComplement ");
+                sb.Append("      ,a.City HotelAddressCity ");
+                sb.Append("      ,a.RegisterDate HoteAddresslReg ");
 
-                sb.Append("      c.Id HotelAddressCityId ");
-                sb.Append("      c.Description HotelAddressCityDescription ");
-                sb.Append("      c.RegisterDate HotelAddressCityReg ");
+                sb.Append("      ,c.Id HotelAddressCityId ");
+                sb.Append("      ,c.Description HotelAddressCityDescription ");
+                sb.Append("      ,c.RegisterDate HotelAddressCityReg ");
 
                 sb.Append("      FROM [Hotel] h ");
                 sb.Append("      JOIN [Address] a ");
@@ -300,13 +300,13 @@ namespace AndreTurismo.Services
                 StringBuilder sb = new();
                 sb.Append("UPDATE [Hotel] SET");
                 sb.Append("       Name = @Name ");
-                sb.Append("       Address = @Address ");
-                sb.Append("       RegisterDate = @RegisterDate ");
-                sb.Append("       Price = @Price ");
+                sb.Append("       ,Address = @Address ");
+                sb.Append("       ,RegisterDate = @RegisterDate ");
+                sb.Append("       ,Price = @Price ");
                 sb.Append("WHERE Id = @Id;");
 
                 SqlCommand commandUpdate = new SqlCommand(sb.ToString(), connection);
-                commandUpdate.Parameters.AddWithValue("@Id", hotel.Id);
+                //commandUpdate.Parameters.AddWithValue("@Id", hotel.Id);
 
                 commandUpdate.Parameters.Add(new SqlParameter("@Id", hotel.Id));
                 commandUpdate.Parameters.Add(new SqlParameter("@Name", hotel.Name));
@@ -315,10 +315,37 @@ namespace AndreTurismo.Services
                 commandUpdate.Parameters.Add(new SqlParameter("@Price", hotel.Price));
 
 
+                int updated = commandUpdate.ExecuteNonQuery();
+                if (updated == 0)
+                {
+                    Console.WriteLine($"Endereço de ID: {hotel.Id} não existe.");
+                }
             }
             catch (Exception e)
             {
                 throw new (e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void Delete(int id)
+        {
+            try
+            {
+                connection.Open();
+
+                string stringDelete = "DELETE FROM [Hotel] WHERE Id = @Id";
+
+                SqlCommand commandDelete = new SqlCommand(stringDelete, connection);
+                commandDelete.Parameters.AddWithValue("@Id", id);
+
+                commandDelete.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new(e.Message);
             }
             finally
             {

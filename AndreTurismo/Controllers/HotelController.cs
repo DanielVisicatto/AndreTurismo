@@ -30,5 +30,9 @@ namespace AndreTurismo.Controllers
         {
             _hotelService.Update(hotel);
         }
+        public void Delete(int id)
+        {
+            _hotelService.Delete(id);
+        }
     }
 }

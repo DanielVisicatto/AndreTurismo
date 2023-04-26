@@ -359,17 +359,14 @@ do
                             }
                             else
                             {
-                                Console.WriteLine("Cidade não encontrada");
+                                Console.WriteLine("Hotel não encontrado");
                             }
-
                         }
                         else
                         {
                             Console.WriteLine("Oportunidade não disponível!");
                         }
-                        Console.ReadLine();  
-                        
-                        
+                        Console.ReadLine();                        
                         break;
 
                     case 3:
@@ -379,12 +376,73 @@ do
                         break;
 
                     case 4:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        new HotelController().FindAll().ForEach(Console.WriteLine);
+                        Console.WriteLine();
+                        Console.WriteLine("Digite o ID do hotel para edita os dados.");
+                        Hotel hotelById = new();
+                        if (!int.TryParse(Console.ReadLine(), out var idHotelSearch))
+                        {
+                            Console.WriteLine("Numero de ID inválido!");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            hotelById = new HotelController().FindById(idHotelSearch);
+
+                            if (hotelById == null) break;
+
+                            Console.WriteLine($"Entre com os novos dados do Hotel {hotelById.Name}");
+                            Console.Write("Nome: ");
+                            hotelById.Name = Console.ReadLine();
+                            Console.Write("Price: ");
+                            hotelById.Price = float.Parse(Console.ReadLine());
+
+                            Console.WriteLine("Deseja alterar o endereço do Hotel? (S/N)");
+                            var answ = Console.ReadLine();
+                            if(answ == "s")
+                            {
+                                new AddressController().FindAll().ForEach(Console.WriteLine);
+
+                                Console.WriteLine("Escolha o ID do endereço");
+                                if (!int.TryParse(Console.ReadLine(), out var newHotelAddress))
+                                {
+                                    Console.WriteLine("Numero de Id inválido!");
+                                    break;
+                                }
+                                else
+                                {
+                                    hotelById.Address = new AddressController().FindById(newHotelAddress);
+                                }
+                            }                    
+
+                            hotelById.RegisterDate = DateTime.Now;
+                            new HotelController().UpdateHotel(hotelById);
+                            Console.WriteLine("Registro alterado com sucesso.");
+                        }
+                        
                         Console.ReadLine();
                         break;
 
                     case 5:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        new HotelController().FindAll().ForEach(Console.WriteLine);
+                        Console.WriteLine("              ATENÇÃO!             \n" +
+                                          "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
+                        Console.Write("Digite o ID para DELETAR: ");
+                        if (!int.TryParse(Console.ReadLine(), out var hotelToDelete))
+                        {
+                            Console.WriteLine("Id inválido!");
+                        }
+                        {
+                            try
+                            {
+                                new HotelController().Delete(hotelToDelete);
+                                Console.WriteLine("Hotel excluído da base de dados!");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($"Erro ao deletar hotel. {e.Message}");
+                            }
+                        }
                         Console.ReadLine();
                         break;
 

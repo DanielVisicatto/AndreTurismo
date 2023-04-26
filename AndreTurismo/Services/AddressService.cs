@@ -219,8 +219,7 @@ namespace AndreTurismo.Services
                 if (updated == 0)
                 {
                     Console.WriteLine($"Endereço de ID: {address.Id} não existe.");
-                }
-                commandUpdate.ExecuteNonQuery();
+                }                
 
             }
             catch (Exception e)
