@@ -14,7 +14,7 @@ namespace AndreTurismo.Services
             connection = new SqlConnection(stringConnection);            
         }
 
-        public int Insert(Package package)
+        public int Create(Package package)
         {
             connection.Open();
             int status = 0;
@@ -61,7 +61,7 @@ namespace AndreTurismo.Services
             return status;
         }
 
-        public List<Package> FindAll()
+        public List<Package> GetAll()
         {
             try
             {

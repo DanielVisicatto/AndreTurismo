@@ -12,32 +12,32 @@ namespace AndreTurismo.Controllers
             cityService = new CityService();
         }
 
-        public int Insert(City city)
+        public int Create(City city)
         {
-            return cityService.Insert(city);
+            return cityService.Create(city);
         }
 
-        public List<City> FindAll()
+        public List<City> GetAll()
         {
-            return cityService.FindAll();
+            return cityService.GetAll();
         }
 
-        public List<City> FindByDescription(string description)
+        public List<City> GetByDesc(string description)
         {
-            return cityService.FindByDescription(description);
+            return cityService.GetByDesc(description);
         }
 
-        public void UpdateCity (int id, City city)
+        public void Update (int id, City city)
         {
-            cityService.UpdateById(city);
+            cityService.Update(city);
         }
 
-        public City FindById(int id)
+        public City GetById(int id)
         {
-            return cityService.FindOne(id);
+            return cityService.Get(id);
         }
 
-        public void DeleteCity (int id)
+        public void Delete (int id)
         {
             cityService.Delete(id);
         }

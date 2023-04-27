@@ -108,7 +108,7 @@ do
                         break;
 
                     case 1:
-                        customer.Id = new CustomerController().Insert(customer);
+                        customer.Id = new CustomerController().Create(customer);
                         Console.ReadLine();
                         break;
 
@@ -119,7 +119,7 @@ do
 
                     case 3:
                         Console.WriteLine("CLIENTES\n");
-                        new CustomerController().FindAll().ForEach(Console.WriteLine);
+                        new CustomerController().GetAll().ForEach(Console.WriteLine);
                         Console.ReadLine();
                         break;
 
@@ -174,7 +174,7 @@ do
                         Console.Write("Complemento: ");
                         newAddress.Complement = Console.ReadLine();
                         Console.WriteLine("CIDADES\n");
-                        new CityController().FindAll().ForEach(Console.WriteLine);
+                        new CityController().GetAll().ForEach(Console.WriteLine);
                         Console.WriteLine("Digite ID da cidade");
                         if (!int.TryParse(Console.ReadLine(), out var cityId))
                         {
@@ -182,19 +182,19 @@ do
                         }
                         else
                         {
-                            City cityFound = new CityController().FindById(cityId);
+                            City cityFound = new CityController().GetById(cityId);
                             newAddress.City = cityFound;
                         }
 
                         newAddress.RegisterDate = DateTime.Now;
-                        newAddress.Id = new AddressController().Insert(newAddress);
+                        newAddress.Id = new AddressController().Create(newAddress);
                         Console.WriteLine("Registro atualizado com sucesso!");
                         Console.ReadLine();
                         break;
 
                     case 2:
                         Console.WriteLine("ENDEREÇOS");
-                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        new AddressController().GetAll().ForEach(Console.WriteLine);
                         Console.WriteLine("Digite Id desejado");
                         
                         if (!int.TryParse(Console.ReadLine(), out var searchAddressId))
@@ -204,7 +204,7 @@ do
                         else
                         {
                             Console.Clear();
-                            Address addressFound = new AddressController().FindById(searchAddressId);
+                            Address addressFound = new AddressController().GetById(searchAddressId);
                            
                             if (addressFound != null)
                             { 
@@ -221,12 +221,12 @@ do
 
                     case 3:
                         Console.WriteLine("ENDEREÇOS\n");
-                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        new AddressController().GetAll().ForEach(Console.WriteLine);
                         Console.ReadLine();
                         break;
 
                     case 4:                        
-                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        new AddressController().GetAll().ForEach(Console.WriteLine);
                         Console.Write("Digite o ID para editar: ");
                         if (!int.TryParse(Console.ReadLine(), out var addressId))
                         {
@@ -247,7 +247,7 @@ do
                             Console.Write("Complemento: ");
 
                             addressFound.Complement = Console.ReadLine();
-                            new CityController().FindAll().ForEach(Console.WriteLine);
+                            new CityController().GetAll().ForEach(Console.WriteLine);
                             Console.Write("Escolha o ID da Cidade ");
 
                             if (!int.TryParse(Console.ReadLine(), out var cityFoundId))
@@ -256,10 +256,10 @@ do
                             }
                             else
                             {
-                                City cityFound = new CityController().FindById(cityFoundId);
+                                City cityFound = new CityController().GetById(cityFoundId);
                                 addressFound.RegisterDate = DateTime.Now;
                                 addressFound.City = cityFound;
-                                new AddressController().UpdateAddress(addressFound);
+                                new AddressController().Update(addressFound);
                                 Console.WriteLine("Registro atualizado!");
                                 Console.WriteLine();
                                 Console.WriteLine(addressFound);
@@ -270,7 +270,7 @@ do
                         break;
 
                     case 5:
-                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        new AddressController().GetAll().ForEach(Console.WriteLine);
                         Console.WriteLine("              ATENÇÃO!             \n" +
                                           "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
                         Console.Write("Digite o ID para DELETAR: ");
@@ -281,7 +281,7 @@ do
                         {
                             try
                             {
-                                new AddressController().DeleteAddress(addressToDelete);
+                                new AddressController().Delete(addressToDelete);
                                 Console.WriteLine("Endereço excluído da base de dados!");
                             }
                             catch (Exception e)
@@ -327,7 +327,7 @@ do
                         {
                              newHotel.Price = price;
                         }
-                        new AddressController().FindAll().ForEach(Console.WriteLine);
+                        new AddressController().GetAll().ForEach(Console.WriteLine);
                         newHotel.RegisterDate = DateTime.Now;
                         Console.Write("Selecione o Endereço: ");
                         if(!int.TryParse(Console.ReadLine(), out var idAddress))
@@ -336,10 +336,10 @@ do
                         }
                         else
                         {
-                            Address addressFound = new AddressController().FindById(idAddress);
+                            Address addressFound = new AddressController().GetById(idAddress);
                             newHotel.Address = addressFound;
                         }
-                        newHotel.Id = new HotelController().Insert(newHotel);
+                        newHotel.Id = new HotelController().Create(newHotel);
                         Console.WriteLine("Registro atualizado com sucesso!");
                         Console.ReadLine();
                         break;
@@ -352,7 +352,7 @@ do
                         {
                             Console.WriteLine("HOTEL\n");
                             HotelController hc = new();
-                            List<Hotel> hotelFound = hc.FindByName(searchHotel);
+                            List<Hotel> hotelFound = hc.GetByName(searchHotel);
                             if (hotelFound != null)
                             {
                                 hotelFound.ForEach(x => Console.WriteLine(x));
@@ -371,12 +371,12 @@ do
 
                     case 3:
                         Console.WriteLine("HOTÉIS\n");
-                        new HotelController().FindAll().ForEach(Console.WriteLine);
+                        new HotelController().GetAll().ForEach(Console.WriteLine);
                         Console.ReadLine();
                         break;
 
                     case 4:
-                        new HotelController().FindAll().ForEach(Console.WriteLine);
+                        new HotelController().GetAll().ForEach(Console.WriteLine);
                         Console.WriteLine();
                         Console.WriteLine("Digite o ID do hotel para edita os dados.");
                         Hotel hotelById = new();
@@ -387,7 +387,7 @@ do
                         else
                         {
                             Console.Clear();
-                            hotelById = new HotelController().FindById(idHotelSearch);
+                            hotelById = new HotelController().GetById(idHotelSearch);
 
                             if (hotelById == null) break;
 
@@ -401,7 +401,7 @@ do
                             var answ = Console.ReadLine();
                             if(answ == "s")
                             {
-                                new AddressController().FindAll().ForEach(Console.WriteLine);
+                                new AddressController().GetAll().ForEach(Console.WriteLine);
 
                                 Console.WriteLine("Escolha o ID do endereço");
                                 if (!int.TryParse(Console.ReadLine(), out var newHotelAddress))
@@ -411,12 +411,12 @@ do
                                 }
                                 else
                                 {
-                                    hotelById.Address = new AddressController().FindById(newHotelAddress);
+                                    hotelById.Address = new AddressController().GetById(newHotelAddress);
                                 }
                             }                    
 
                             hotelById.RegisterDate = DateTime.Now;
-                            new HotelController().UpdateHotel(hotelById);
+                            new HotelController().Update(hotelById);
                             Console.WriteLine("Registro alterado com sucesso.");
                         }
                         
@@ -424,7 +424,7 @@ do
                         break;
 
                     case 5:
-                        new HotelController().FindAll().ForEach(Console.WriteLine);
+                        new HotelController().GetAll().ForEach(Console.WriteLine);
                         Console.WriteLine("              ATENÇÃO!             \n" +
                                           "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
                         Console.Write("Digite o ID para DELETAR: ");
@@ -475,7 +475,7 @@ do
                             Description = newcityDesc,
                             RegisterDate = DateTime.Now
                         };
-                        newCity.Id = new CityController().Insert(newCity);
+                        newCity.Id = new CityController().Create(newCity);
                         Console.WriteLine("Registro incluido com sucesso!");
                         Console.WriteLine(newCity);
 
@@ -491,7 +491,7 @@ do
                         {
                             Console.WriteLine("CIDADE\n");
                             CityController cc = new();
-                            List<City> cityFound = cc.FindByDescription(searchDesc);
+                            List<City> cityFound = cc.GetByDesc(searchDesc);
                             if (cityFound != null)
                             {
                                 cityFound.ForEach(x => Console.WriteLine(x));
@@ -508,12 +508,12 @@ do
 
                     case 3:
                         Console.WriteLine("CIDADES\n");
-                        new CityController().FindAll().ForEach(Console.WriteLine);
+                        new CityController().GetAll().ForEach(Console.WriteLine);
                         Console.ReadLine();
                         break;
 
                     case 4:
-                        new CityController().FindAll().ForEach(Console.WriteLine);
+                        new CityController().GetAll().ForEach(Console.WriteLine);
                         Console.Write("Digite o ID para editar: ");
                         if (!int.TryParse(Console.ReadLine(), out var cityId))
                         {
@@ -527,7 +527,7 @@ do
                             cityFound.Description = Console.ReadLine();
                             cityFound.RegisterDate = DateTime.Now;
                             cityFound.Id = cityId;
-                            new CityController().UpdateCity(cityId, cityFound);
+                            new CityController().Update(cityId, cityFound);
                             Console.Clear();
                             Console.WriteLine("Registro atualizado!");
                             Console.WriteLine();
@@ -538,7 +538,7 @@ do
 
                     case 5:
                         Console.Clear();
-                        new CityController().FindAll().ForEach(Console.WriteLine);
+                        new CityController().GetAll().ForEach(Console.WriteLine);
                         Console.WriteLine("              ATENÇÃO!             \n" +
                                           "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
                         Console.Write("Digite o ID para DELETAR: ");
@@ -551,7 +551,7 @@ do
                         {
                             try
                             {
-                                new CityController().DeleteCity(idToDelete);
+                                new CityController().Delete(idToDelete);
                                 Console.WriteLine("Cidade excluída da base de dados!");
                             }
                             catch (Exception e)
@@ -583,13 +583,13 @@ do
                         break;
 
                     case 1:
-                        ticket.Id = new TicketController().Insert(ticket);
+                        ticket.Id = new TicketController().Create(ticket);
                         Console.ReadLine();
                         break;
 
                     case 2:
                         Console.WriteLine("PASSAGENS\n");
-                        new TicketController().FindAll().ForEach(Console.WriteLine);
+                        new TicketController().GetAll().ForEach(Console.WriteLine);
                         Console.ReadLine();
                         break;
 
@@ -619,13 +619,13 @@ do
                         break;
 
                     case 1:
-                        package.Id = new PackageController().Insert(package);
+                        package.Id = new PackageController().Create(package);
                         Console.ReadLine();
                         break;
 
                     case 2:
                         Console.WriteLine("PACOTES\n");
-                        new PackageController().FindAll().ForEach(Console.WriteLine);
+                        new PackageController().GetAll().ForEach(Console.WriteLine);
                         Console.ReadLine();
                         break;
 

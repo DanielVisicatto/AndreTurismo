@@ -10,23 +10,23 @@ namespace AndreTurismo.Controllers
         {
              _hotelService = new HotelService();
         }
-        public int Insert(Hotel hotel)
+        public int Create(Hotel hotel)
         {
-            return _hotelService.Insert(hotel);
+            return _hotelService.Create(hotel);
         }
-        public List<Hotel> FindAll()
+        public List<Hotel> GetAll()
         {
-            return _hotelService.FindAll();
+            return _hotelService.GetAll();
         }
-        public Hotel FindById(int id)
+        public Hotel GetById(int id)
         {
-            return _hotelService.Find(id);
+            return _hotelService.GetById(id);
         }
-        public List<Hotel> FindByName(string name)
+        public List<Hotel> GetByName(string name)
         {
-            return _hotelService.FindName(name);
+            return _hotelService.GetByName(name);
         }
-        public void UpdateHotel(Hotel hotel)
+        public void Update(Hotel hotel)
         {
             _hotelService.Update(hotel);
         }

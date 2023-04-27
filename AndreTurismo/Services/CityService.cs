@@ -15,7 +15,7 @@ namespace AndreTurismo.Services
             connection = new SqlConnection(stringConnection);
         }
 
-        public int Insert(City city)
+        public int Create(City city)
         {
             connection.Open();
             int status = 0;
@@ -48,7 +48,7 @@ namespace AndreTurismo.Services
             }
             return status;
         }
-        public List<City> FindAll()
+        public List<City> GetAll()
         {
             try
             {
@@ -86,7 +86,7 @@ namespace AndreTurismo.Services
                 connection.Close();
             }
         }
-        public List<City> FindByDescription(string description)
+        public List<City> GetByDesc(string description)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace AndreTurismo.Services
                 connection.Close();
             }
         }
-        public void UpdateById(City city)
+        public void Update(City city)
         {
             try
             {
@@ -183,7 +183,7 @@ namespace AndreTurismo.Services
                 connection.Close();
             }
         }
-        public City FindOne(int id)
+        public City Get(int id)
         {
             try
             {

@@ -5,14 +5,14 @@ namespace AndreTurismo.Controllers
 {
     public class TicketController
     {
-        public int Insert (Ticket ticket)
+        public int Create (Ticket ticket)
         {
-            return new TicketService().Insert(ticket);
+            return new TicketService().Create(ticket);
         }
 
-        public List<Ticket> FindAll()
+        public List<Ticket> GetAll()
         {
-            return new TicketService().FindAll();
+            return new TicketService().GetAll();
         }
     }
 }

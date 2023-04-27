@@ -5,14 +5,14 @@ namespace AndreTurismo.Controllers
 {
     public class PackageController
     {
-        public int Insert(Package package)
+        public int Create(Package package)
         {
-            return new PackageService().Insert(package);
+            return new PackageService().Create(package);
         }
 
-        public List<Package> FindAll()
+        public List<Package> GetAll()
         {
-            return new PackageService().FindAll();
+            return new PackageService().GetAll();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace AndreTurismo.Services
             connection = new SqlConnection(stringConnection);            
         }
 
-        public int Insert(Ticket ticket)
+        public int Create(Ticket ticket)
         {
             connection.Open();
             int status = 0;
@@ -58,7 +58,7 @@ namespace AndreTurismo.Services
             
         }
 
-        public List<Ticket> FindAll()
+        public List<Ticket> GetAll()
         {
             try
             {

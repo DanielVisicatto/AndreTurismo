@@ -13,7 +13,7 @@ namespace AndreTurismo.Services
         {
             connection = new SqlConnection(stringConnection);
         }
-        public int Insert(Address address)
+        public int Create(Address address)
         {
             connection.Open();
             int status = 0;
@@ -60,7 +60,7 @@ namespace AndreTurismo.Services
             }
             return status;
         }
-        public List<Address> FindAll()
+        public List<Address> GetAll()
         {
             try
             {
@@ -122,7 +122,7 @@ namespace AndreTurismo.Services
             }
 
         }
-        public Address Find(int id)
+        public Address GetById(int id)
         {            
             try
             {
@@ -188,7 +188,7 @@ namespace AndreTurismo.Services
                 connection.Close();
             }            
         }
-        public void UpdateById(Address address)
+        public void Update(Address address)
         {
             try
             {

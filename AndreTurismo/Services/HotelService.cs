@@ -14,7 +14,7 @@ namespace AndreTurismo.Services
             connection = new SqlConnection(stringConnection);            
         }
 
-        public int Insert(Hotel hotel)
+        public int Create(Hotel hotel)
         {
             connection.Open();
             int status = 0;
@@ -52,7 +52,7 @@ namespace AndreTurismo.Services
             }
             return status;
         }
-        public List<Hotel> FindAll()
+        public List<Hotel> GetAll()
         {
             try
             {
@@ -131,7 +131,7 @@ namespace AndreTurismo.Services
                 connection.Close();
             }            
         }
-        public Hotel Find(int id)
+        public Hotel GetById(int id)
         {
             try
             {
@@ -212,7 +212,7 @@ namespace AndreTurismo.Services
                 connection.Close();
             }
         }
-        public List<Hotel> FindName(string name)
+        public List<Hotel> GetByName(string name)
         {
             try
             {

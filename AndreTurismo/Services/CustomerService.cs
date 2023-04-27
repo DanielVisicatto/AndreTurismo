@@ -56,7 +56,7 @@ namespace AndreTurismo.Services
             return status;
         }
 
-        public List<Customer> FindAll() 
+        public List<Customer> GetAll() 
         {
             try
             {

@@ -5,14 +5,14 @@ namespace AndreTurismo.Controllers
 {
     public class CustomerController
     {
-        public int Insert(Customer customer)
+        public int Create(Customer customer)
         {
             return new CustomerService().Insert(customer);
         }
 
-        public List<Customer> FindAll()
+        public List<Customer> GetAll()
         {
-            return new CustomerService().FindAll();
+            return new CustomerService().GetAll();
         }
     }
 }

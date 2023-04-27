@@ -10,14 +10,14 @@ namespace AndreTurismo.Controllers
         {
             _addressService = new AddressService();
         }
-        public int Insert(Address address)
+        public int Create(Address address)
         {
-            return _addressService.Insert(address);
+            return _addressService.Create(address);
         }
 
-        public Address FindById(int id)
+        public Address GetById(int id)
         {
-            return _addressService.Find(id);
+            return _addressService.GetById(id);
         }
 
         //public List<Address> FindByCity(City city, string search)
@@ -25,18 +25,18 @@ namespace AndreTurismo.Controllers
         //    return addressService.FindByCity(search);
         //}
 
-        public List<Address> FindAll()
+        public List<Address> GetAll()
         {
-             return _addressService.FindAll();
+             return _addressService.GetAll();
         }  
         
-        public void UpdateAddress(Address address)
+        public void Update(Address address)
         {
-            new CityService().UpdateById(address.City);
-            _addressService.UpdateById(address);
+            new CityService().Update(address.City);
+            _addressService.Update(address);
         }       
         
-        public void DeleteAddress(int id)
+        public void Delete(int id)
         {
             _addressService.Delete(id);
         }
