@@ -108,12 +108,45 @@ do
                         break;
 
                     case 1:
-                        customer.Id = new CustomerController().Create(customer);
+                        Customer newCustomer = new();
+                        Console.WriteLine("Preencha os dados do Cliente.");
+                        Console.Write("None: ");
+                        newCustomer.Name = Console.ReadLine();
+                        Console.Write("Telefone: ");
+                        newCustomer.PhoneNumber = Console.ReadLine();
+                        Console.Write("Celular: ");
+                        newCustomer.CellPhoneNumber = Console.ReadLine();
+                        Console.Clear();
+                        new AddressController().GetAll().ForEach(Console.WriteLine);
+                        Console.Write("Selecione o Endereço: ");
+                        if (!int.TryParse(Console.ReadLine(), out var idAddress))                        
+                            Console.WriteLine("Id do endereço inválido!");                        
+                        else
+                        {
+                            Address addressFound = new AddressController().GetById(idAddress);
+                            newCustomer.Address = addressFound;
+                        }
+                        newCustomer.RegisterDate = DateTime.Now;
+                        newCustomer.Id = new CustomerController().Create(newCustomer);
+                        Console.Clear();
+                        Console.WriteLine("Cliente cadastrado com sucesso!");
+
                         Console.ReadLine();
                         break;
 
                     case 2:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.WriteLine("Digite o nome do(a) cliente para buscar");
+                        var customerSearch = Console.ReadLine();
+                        Console.Clear();
+                        try
+                        {
+                            new CustomerController().GetByName(customerSearch).ForEach(Console.WriteLine);
+                        }
+                        catch (Exception ex) 
+                        {
+                            Console.WriteLine("Cliente não encontrado(a)");
+                            throw new(ex.Message);
+                        }
                         Console.ReadLine();
                         break;
 
@@ -124,8 +157,46 @@ do
                         break;
 
                     case 4:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
-                        Console.ReadLine();
+                        new CustomerController().GetAll().ForEach(Console.WriteLine);
+                        Console.WriteLine();
+                        Console.WriteLine("Digite o ID do Cliente para edita os dados.");
+                        Customer customerById = new();
+                        if (!int.TryParse(Console.ReadLine(), out var idCustomerSearch))
+                            Console.WriteLine("Numero de ID inválido!");
+                        else
+                        {
+                            Console.Clear();
+                            customerById = new CustomerController().GetById(idCustomerSearch);
+
+                            if (customerById == null) break;
+
+                            Console.WriteLine($"Entre com os novos dados do(a) Cliente {customerById.Name}");
+                            Console.Write("Nome: ");
+                            customerById.Name = Console.ReadLine();
+                            Console.Write("Telefone: ");
+                            customerById.PhoneNumber = Console.ReadLine();
+                            Console.Write("Celular: ");
+                            customerById.CellPhoneNumber = Console.ReadLine();
+                            Console.WriteLine("Deseja alterar o endereço do Cliente? (S/N)");
+                            var answ = Console.ReadLine();
+                            if (answ == "s")
+                            {
+                                new AddressController().GetAll().ForEach(Console.WriteLine);
+
+                                Console.WriteLine("Escolha o ID do endereço");
+                                if (!int.TryParse(Console.ReadLine(), out var newHotelAddress))
+                                {
+                                    Console.WriteLine("Numero de Id inválido!");
+                                    break;
+                                }
+                                else
+                                    customerById.Address = new AddressController().GetById(newHotelAddress);
+                            }
+                            customerById.RegisterDate = DateTime.Now;
+                            new CustomerController().Update(customerById);
+                            Console.WriteLine("Registro alterado com sucesso.");
+                            Console.ReadLine();
+                        }
                         break;
 
                     case 5:
@@ -319,10 +390,8 @@ do
                         Console.Write("Nome: ");
                         newHotel.Name = Console.ReadLine();
                         Console.Write("Preço: ");
-                        if(!float.TryParse(Console.ReadLine(), out var price))
-                        {
-                            Console.WriteLine("Preco inválido");
-                        }
+                        if(!float.TryParse(Console.ReadLine(), out var price))                        
+                            Console.WriteLine("Preco inválido");                        
                         else
                         {
                              newHotel.Price = price;
@@ -330,10 +399,8 @@ do
                         new AddressController().GetAll().ForEach(Console.WriteLine);
                         newHotel.RegisterDate = DateTime.Now;
                         Console.Write("Selecione o Endereço: ");
-                        if(!int.TryParse(Console.ReadLine(), out var idAddress))
-                        {
-                            Console.WriteLine("Id do endereço inválido!");
-                        }
+                        if(!int.TryParse(Console.ReadLine(), out var idAddress))                        
+                            Console.WriteLine("Id do endereço inválido!");                        
                         else
                         {
                             Address addressFound = new AddressController().GetById(idAddress);
@@ -353,19 +420,14 @@ do
                             Console.WriteLine("HOTEL\n");
                             HotelController hc = new();
                             List<Hotel> hotelFound = hc.GetByName(searchHotel);
-                            if (hotelFound != null)
-                            {
-                                hotelFound.ForEach(x => Console.WriteLine(x));
-                            }
-                            else
-                            {
-                                Console.WriteLine("Hotel não encontrado");
-                            }
+                            if (hotelFound != null)                            
+                                hotelFound.ForEach(x => Console.WriteLine(x));                            
+                            else                            
+                                Console.WriteLine("Hotel não encontrado");                            
                         }
-                        else
-                        {
+                        else                        
                             Console.WriteLine("Oportunidade não disponível!");
-                        }
+                        
                         Console.ReadLine();                        
                         break;
 
@@ -380,13 +442,11 @@ do
                         Console.WriteLine();
                         Console.WriteLine("Digite o ID do hotel para edita os dados.");
                         Hotel hotelById = new();
-                        if (!int.TryParse(Console.ReadLine(), out var idHotelSearch))
-                        {
-                            Console.WriteLine("Numero de ID inválido!");
-                        }
+                        if (!int.TryParse(Console.ReadLine(), out var idHotelSearch))                        
+                            Console.WriteLine("Numero de ID inválido!");                        
                         else
                         {
-                            Console.Clear();
+                            //Console.Clear();
                             hotelById = new HotelController().GetById(idHotelSearch);
 
                             if (hotelById == null) break;
@@ -409,10 +469,8 @@ do
                                     Console.WriteLine("Numero de Id inválido!");
                                     break;
                                 }
-                                else
-                                {
-                                    hotelById.Address = new AddressController().GetById(newHotelAddress);
-                                }
+                                else                                
+                                    hotelById.Address = new AddressController().GetById(newHotelAddress);                                
                             }                    
 
                             hotelById.RegisterDate = DateTime.Now;
@@ -428,10 +486,9 @@ do
                         Console.WriteLine("              ATENÇÃO!             \n" +
                                           "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
                         Console.Write("Digite o ID para DELETAR: ");
-                        if (!int.TryParse(Console.ReadLine(), out var hotelToDelete))
-                        {
-                            Console.WriteLine("Id inválido!");
-                        }
+                        if (!int.TryParse(Console.ReadLine(), out var hotelToDelete))                        
+                            Console.WriteLine("Id inválido!");                        
+                        else
                         {
                             try
                             {
