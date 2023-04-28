@@ -200,8 +200,25 @@ do
                         break;
 
                     case 5:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
-                        Console.ReadLine();
+                        new CustomerController().GetAll().ForEach(Console.WriteLine);
+                        Console.WriteLine("              ATENÇÃO!             \n" +
+                                          "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
+                        Console.Write("Digite o ID para DELETAR: ");
+                        if (!int.TryParse(Console.ReadLine(), out var customerToDelete))
+                            Console.WriteLine("Id inválido!");
+                        else
+                        {
+                            try
+                            {
+                                new CustomerController().Delete(customerToDelete);
+                                Console.WriteLine("Cliente excluído(a) da base de dados!");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($"Erro ao deletar Cliente. {e.Message}");
+                            }
+                        }
+                        Console.ReadLine();                       
                         break;
 
                     case 6:
@@ -636,29 +653,120 @@ do
                 {
                     default:
                         Console.WriteLine("Opção inválida");
-                        op5 = 4;
+                        op5 = 5;
                         break;
-
                     case 1:
-                        ticket.Id = new TicketController().Create(ticket);
-                        Console.ReadLine();
+                        Ticket newTicket = new();
+                        Console.WriteLine("Preencha com os dados da Passagem");
+                        new AddressController().GetAll().ForEach(Console.WriteLine);
+                        Console.Write("Endereço de Origem: ");
+                        if(!int.TryParse(Console.ReadLine(), out var ticketHomeId))
+                        {
+                            Console.WriteLine("ID digitado inválido!");
+                        }
+                        else
+                        {
+                            newTicket.Home = new AddressController().GetById(ticketHomeId);
+                            Console.Clear();
+                        }
+                        new AddressController().GetAll().ForEach(Console.WriteLine);
+                        Console.Write("Endereço de Destino: ");
+                        if (!int.TryParse(Console.ReadLine(), out var ticketDestinyId))
+                        {
+                            Console.WriteLine("ID digitado inválido!");
+                        }
+                        else
+                        {
+                            newTicket.Destiny = new AddressController().GetById(ticketDestinyId);
+                            Console.Clear();
+                        }
+                        new CustomerController().GetAll().ForEach(Console.WriteLine);                        
+                        Console.Write("Selecione Cliente: ");
+                        if (!int.TryParse(Console.ReadLine(), out var ticketCustomerId))
+                        {
+                            Console.WriteLine("ID digitado inválido!");
+                        }
+                        else
+                        {                            
+                            newTicket.Customer = new CustomerController().GetById(ticketCustomerId);
+                            Console.Clear();
+                        }
+                        Console.Write("Digite o ID do cliente: ");
+                        newTicket.Date = DateTime.Now;
+                        Console.Write("Valor do pacote: ");
+                        if(!float.TryParse(Console.ReadLine(), out var TicketPrice))
+                        {
+                            Console.WriteLine("valor inexistente.");
+                        }
+                        else
+                        {
+                            newTicket.Price = TicketPrice;
+                        }
+                        
                         break;
 
                     case 2:
-                        Console.WriteLine("PASSAGENS\n");
+                        Console.WriteLine("PASSAGENS");
                         new TicketController().GetAll().ForEach(Console.WriteLine);
+                        Console.WriteLine("Digite Id desejado");
+
+                        if (!int.TryParse(Console.ReadLine(), out var searchTicketId))
+                        {
+                            Console.WriteLine("ID digitado inválido!");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Ticket ticketFound = new TicketController().GetById(searchTicketId);
+
+                            if (ticketFound != null)
+                            {
+                                Console.WriteLine("Registro Selecionado:");
+                                Console.WriteLine(ticketFound);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Registro não encontrado.");
+                            }
+                        }
                         Console.ReadLine();
                         break;
 
                     case 3:
-                        Console.WriteLine("Esta oportunidade ficará disponível em breve!");
+                        Console.Clear();
+                        Console.WriteLine("PASSAGENS");
+                        new TicketController().GetAll().ForEach(Console.WriteLine);                        
+                       
                         Console.ReadLine();
                         break;
 
                     case 4:
+                        Console.Clear();
+                        new TicketController().GetAll().ForEach(Console.WriteLine);
+                        Console.WriteLine("              ATENÇÃO!             \n" +
+                                          "ESTA OPERAÇÃO NÃO PODE SER DESFEITA!");
+                        Console.Write("Digite o ID para DELETAR: ");
+                        if (!int.TryParse(Console.ReadLine(), out var ticketToDelete))
+                            Console.WriteLine("Id inválido!");
+                        else
+                        {
+                            try
+                            {
+                                new TicketController().Delete(ticketToDelete);
+                                Console.WriteLine("Passagem excluída da base de dados!");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($"Erro ao deletar Pasagem. {e.Message}");
+                            }
+                        }
+                        Console.ReadLine();
+                        break;
+
+                    case 5:
                         break;
                 }
-            } while (op5 != 4);
+            } while (op5 != 5);
             break;
 
         case 6:
@@ -875,14 +983,16 @@ int CityMenu()
 int TicketMenu()
 {
     Console.WriteLine("_______________________________________________");
-    Console.WriteLine("|                                             |");
-    Console.WriteLine("|*   1  -  Buscar Passagem                   *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   2  -  Buscar Todas as Passagens         *|");
+    Console.WriteLine("|*   1  -  Cadastrar Passagem                *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   3  -  Deletar Passagem                  *|");
+    Console.WriteLine("|*   2  -  Buscar Passagem                   *|");
     Console.WriteLine("|*                                           *|");
-    Console.WriteLine("|*   4  -  Voltar                            *|");
+    Console.WriteLine("|*   3  -  Buscar Todas as Passagens         *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   4  -  Deletar Passagem                  *|");
+    Console.WriteLine("|*                                           *|");
+    Console.WriteLine("|*   5  -  Voltar                            *|");
     Console.WriteLine("|*___________________________________________*|");
 
     if (!int.TryParse(Console.ReadLine(), out var ticketOption))
