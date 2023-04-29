@@ -4,83 +4,83 @@ using AndreTurismo.Models;
 int op;
 
 #region[Mocked Data]
-City id = new()
-{
-    Description = "Araraquara",
-    RegisterDate = DateTime.Now,
-};
-//city.Id = new CityController().Insert(city);
+//City id = new()
+//{
+//    Description = "Araraquara",
+//    RegisterDate = DateTime.Now,
+//};
+////city.Id = new CityController().Insert(city);
 
-City hotelCity = new()
-{
-    Description = "Sao Paulo",
-    RegisterDate = DateTime.Now,
-};
+//City hotelCity = new()
+//{
+//    Description = "Sao Paulo",
+//    RegisterDate = DateTime.Now,
+//};
 
-//hotelCity.Id = new CityController().Insert(hotelCity);
+////hotelCity.Id = new CityController().Insert(hotelCity);
 
-Address address = new()
-{
-    Street = "Rua Dom Pedro I",
-    Number = 832,
-    Neighborhood = "Vila-Xavier",
-    City = id,
-    ZipCode = "14.810-108",
-    Complement = "FD",
-    RegisterDate = DateTime.Now
-};
-//address.Id = new AddressController().Insert(address);
+//Address address = new()
+//{
+//    Street = "Rua Dom Pedro I",
+//    Number = 832,
+//    Neighborhood = "Vila-Xavier",
+//    City = id,
+//    ZipCode = "14.810-108",
+//    Complement = "FD",
+//    RegisterDate = DateTime.Now
+//};
+////address.Id = new AddressController().Insert(address);
 
-Address hotelAddress = new()
-{
-    Street = "Av. Da Saudade",
-    Number = 1865,
-    Neighborhood = "Santa Clara",
-    City = hotelCity,
-    ZipCode = "11.252-850",
-    Complement = "",
-    RegisterDate = DateTime.Now,
-};
-//hotelAddress.Id = new AddressController().Insert(hotelAddress);
+//Address hotelAddress = new()
+//{
+//    Street = "Av. Da Saudade",
+//    Number = 1865,
+//    Neighborhood = "Santa Clara",
+//    City = hotelCity,
+//    ZipCode = "11.252-850",
+//    Complement = "",
+//    RegisterDate = DateTime.Now,
+//};
+////hotelAddress.Id = new AddressController().Insert(hotelAddress);
 
-Customer customer = new()
-{
-    Name = "Daniel",
-    Address = address,
-    PhoneNumber = "",
-    CellPhoneNumber = "16 99751-9788",
-    RegisterDate = DateTime.Now
-};
-//customer.Id = new CustomerController().Insert(customer);
+//Customer customer = new()
+//{
+//    Name = "Daniel",
+//    Address = address,
+//    PhoneNumber = "",
+//    CellPhoneNumber = "16 99751-9788",
+//    RegisterDate = DateTime.Now
+//};
+////customer.Id = new CustomerController().Insert(customer);
 
-Hotel hotel = new()
-{
-    Name = "Real_Garden",
-    Address = hotelAddress,
-    RegisterDate = DateTime.Now,
-    Price = 185.00
-};
-//hotel.Id = new HotelController().Insert(hotel);
+//Hotel hotel = new()
+//{
+//    Name = "Real_Garden",
+//    Address = hotelAddress,
+//    RegisterDate = DateTime.Now,
+//    Price = 185.00
+//};
+////hotel.Id = new HotelController().Insert(hotel);
 
-Ticket ticket = new()
-{
-    Home = customer.Address,
-    Destiny = hotel.Address,
-    Customer = customer,
-    Date = DateTime.Now,
-    Price = hotel.Price,
-};
-//ticket.Id = new TicketController().Insert(ticket);
+//Ticket ticket = new()
+//{
+//    Home = customer.Address,
+//    Destiny = hotel.Address,
+//    Customer = customer,
+//    Date = DateTime.Now,
+//    Price = hotel.Price,
+//};
+////ticket.Id = new TicketController().Insert(ticket);
 
-Package package = new()
-{
-    Hotel = hotel,
-    Ticket = new() { Id = ticket.Id },
-    RegisterDate = DateTime.Now,
-    Price = 800.00 + hotel.Price,
-    Customer = customer,
-};
-//package.Id = new PackageController().Insert(package);
+//Package package = new()
+//{
+//    Hotel = hotel,
+//    Ticket = new() { Id = ticket.Id },
+//    RegisterDate = DateTime.Now,
+//    Price = 800.00 + hotel.Price,
+//    Customer = customer,
+//};
+////package.Id = new PackageController().Insert(package);
 
 #endregion
 
