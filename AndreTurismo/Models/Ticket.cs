@@ -5,8 +5,8 @@
         #region[Properties]
         public int Id { get; set; }
         public Address?  Home { get; set; }
-        public Customer? Customer { get; set; }
         public Address? Destiny { get; set; }        
+        public Customer? Customer { get; set; }
         public DateTime? Date { get; set; }
         public double Price { get; set; }
         #endregion

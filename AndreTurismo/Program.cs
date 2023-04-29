@@ -669,6 +669,8 @@ do
                             newTicket.Home = new AddressController().GetById(ticketHomeId);
                             Console.Clear();
                         }
+
+
                         new AddressController().GetAll().ForEach(Console.WriteLine);
                         Console.Write("Endereço de Destino: ");
                         if (!int.TryParse(Console.ReadLine(), out var ticketDestinyId))
@@ -680,8 +682,10 @@ do
                             newTicket.Destiny = new AddressController().GetById(ticketDestinyId);
                             Console.Clear();
                         }
-                        new CustomerController().GetAll().ForEach(Console.WriteLine);                        
-                        Console.Write("Selecione Cliente: ");
+
+
+                        new CustomerController().GetAll().ForEach(Console.WriteLine);                       
+                        Console.Write("Digite o ID do cliente: ");
                         if (!int.TryParse(Console.ReadLine(), out var ticketCustomerId))
                         {
                             Console.WriteLine("ID digitado inválido!");
@@ -691,8 +695,8 @@ do
                             newTicket.Customer = new CustomerController().GetById(ticketCustomerId);
                             Console.Clear();
                         }
-                        Console.Write("Digite o ID do cliente: ");
                         newTicket.Date = DateTime.Now;
+
                         Console.Write("Valor do pacote: ");
                         if(!float.TryParse(Console.ReadLine(), out var TicketPrice))
                         {
@@ -702,7 +706,7 @@ do
                         {
                             newTicket.Price = TicketPrice;
                         }
-                        
+                        newTicket.Id = new TicketController().Create(newTicket);
                         break;
 
                     case 2:
@@ -784,7 +788,39 @@ do
                         break;
 
                     case 1:
-                        package.Id = new PackageController().Create(package);
+                        Console.WriteLine("CONTROLE DE PASSAGENS:");
+                        Package newPackage = new();
+                        new HotelController().GetAll().ForEach(Console.WriteLine);
+                        Console.Write("Digite ID do Hotel");
+                        if(!int.TryParse(Console.ReadLine(), out var hotelSearch))
+                        {
+                            Console.WriteLine("ID digitado inválido!");
+                        }
+                        else
+                        {
+                            newPackage.Hotel = new HotelController().GetById(hotelSearch);
+                            Console.WriteLine($"Hotel definido: {newPackage.Hotel.Name}");
+                        }
+
+                        Ticket packageTicket = new();
+                        new TicketController().GetAll().ForEach(Console.WriteLine);
+                        Console.Write("Digite ID da Passagem:");
+                        if (!int.TryParse(Console.ReadLine(), out var ticketSearch))
+                        {
+                            Console.WriteLine("ID digitado inválido!");
+                        }
+                        else
+                        {
+                            newPackage.Ticket = new TicketController().GetById(ticketSearch);
+                            Console.WriteLine($"Passagem nº: {newPackage.Ticket.Id}");
+                        }
+                        newPackage.RegisterDate = DateTime.Now;
+                        //newPackage.Cutomer = new CustomerController()
+
+
+                        //Console.WriteLine();
+                        
+                        newPackage.Id = new PackageController().Create(newPackage);
                         Console.ReadLine();
                         break;
 
